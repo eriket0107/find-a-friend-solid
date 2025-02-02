@@ -1,29 +1,18 @@
 version: "3.9"
 
 services:
-  app:
-    build: .
-    container_name: fastify_app
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: "postgres://postgres:password@postgres:5432/mydb"
-    networks:
-      - fastify_network
-
   postgres:
     image: postgres:16
     container_name: find_a_friend_postgres
     restart: always
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     environment:
-      POSTGRES_USER: findafriend
-      POSTGRES_PASSWORD: findafriend
-      POSTGRES_DB: findafriend
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    env_file:
+      - .env 
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

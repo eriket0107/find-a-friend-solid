@@ -1,17 +1,19 @@
+import { env } from '../../src/env'
 import path from 'node:path'
 
 import { DataSource } from 'typeorm'
 
-const databasePath = path.resolve('src', 'database', 'sales.sqlite')
-const entitiesPath = path.resolve('src', 'database', 'entities', '*.ts')
-const migrationsPath = path.resolve('src', 'database', 'migrations', '*.ts')
+const entitiesPath = path.resolve('database', 'entity', '*.ts')
+const migrationsPath = path.resolve('database', 'migration', '*.ts')
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  database: databasePath,
   synchronize: false,
   logging: true,
   entities: [entitiesPath],
   migrations: [migrationsPath],
   subscribers: [],
+  port: env.POSTGRES_PORT,
+  username: env.POSTGRES_USER,
+  password: env.POSTGRES_PASSWORD,
 })

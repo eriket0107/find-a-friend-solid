@@ -2,16 +2,20 @@
   "name": "find-a-friend-solid",
   "version": "1.0.0",
   "description": "## To start application",
-  "main": "server.ts",
+  "main": "server.js",
   "scripts": {
     "start": "node build/index.js",
     "build": "tsup src --out-dir dist",
-    "dev": "tsx watch server.ts"
+    "dev": "tsx watch server.ts",
+    "typeorm": "typeorm-ts-node-commonjs -d database/data-source",
+    "migration:generate": "yarn typeorm migration:generate",
+    "migration:run": "yarn typeorm migration:run"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "22.13.0",
+    "ts-node": "10.9.2",
     "tsup": "8.3.6",
     "tsx": "4.19.2",
     "typescript": "5.7.3"
