@@ -19,8 +19,8 @@ app.register(fastifySwagger, {
   openapi: {
     openapi: '3.0.0',
     info: {
-      title: 'Fastify API',
-      description: 'API de vendas de produtos',
+      title: 'Find A Friend API',
+      description: 'Backend for Find a Pet',
       version: '1.0.0',
     },
   },

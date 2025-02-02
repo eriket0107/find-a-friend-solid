@@ -1,38 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Org } from "./Org";
 
 @Entity()
-export class Org {
+export class Pet {
   @PrimaryGeneratedColumn()
-  id!: string
+  id!: string;
 
   @Column({ type: "varchar", length: 255 })
-  email!: string;
+  name!: string;
 
   @Column({ type: "varchar", length: 255 })
-  password_hash!: string
+  description!: string;
 
   @Column({ type: "varchar", length: 255 })
-  name!: string
-
-  @Column({ type: "bigint", })
-  cnpj!: number
-
-  @Column({ type: "bigint", })
-  whatsapp!: number
-
-  @Column({ type: "bigint", })
-  cep!: number
+  image_url!: string;
 
   @Column({ type: "varchar", length: 255 })
-  city!: string
+  age!: string;
 
   @Column({ type: "varchar", length: 255 })
-  state!: string
+  breed!: string;
 
+  @Column('varchar')
+  traits!: string[]
 
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at?: Date
+
+  @ManyToOne(() => Org, (org) => org.id)
+  org_id!: string;
 }
