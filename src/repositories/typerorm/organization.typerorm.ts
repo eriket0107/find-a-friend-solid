@@ -14,4 +14,7 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
   async findByEmail(email: string): Promise<Organization | null> {
     return await this.repository.findOne({ where: { email } });
   }
+  async findByCnpj(cnpj: number): Promise<Organization | null> {
+    return await this.repository.findOne({ where: { cnpj } });
+  }
 }
