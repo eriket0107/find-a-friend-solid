@@ -1,16 +1,27 @@
 # Find A Friend API
 
+## API Docs from Swagger
+
+`localhost:{3333 or 3000}/docs`
+
 ## To start application
 
 - Feel free to use your favorite *pack manager*
 
-1. `npm install` or `yarn`
-2. `npm run dev` or `yarn dev`
+```cmd
+yarn
+
+yarn dev
+```
+
+## Set up docker
 
 - You must also set *docker* environment up
   - Don't forget to configure it to your own way
 
-1. `docker compose up --build`
+```cmd
+docker compose up --build
+````
 
 ## Application Rules
 
