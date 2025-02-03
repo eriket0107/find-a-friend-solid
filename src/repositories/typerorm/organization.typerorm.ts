@@ -1,7 +1,7 @@
 import { Organization } from "database/entities/Organization";
 import { IOrganizationRepository } from "../organization.repository";
 import { dataSource } from "database/data-source";
-import { DataSource, Repository } from "typeorm";
+import { Repository } from "typeorm";
 
 export class OrganizationTypeOrmRepository implements IOrganizationRepository {
 
