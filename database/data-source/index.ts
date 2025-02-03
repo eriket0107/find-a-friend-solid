@@ -3,8 +3,8 @@ import path from 'node:path';
 
 import { DataSource } from 'typeorm';
 
-const entitiesPath = path.resolve('database', 'entity', '*.ts');
-const migrationsPath = path.resolve('database', 'migration', '*.ts');
+const entitiesPath = path.resolve('database', 'entities', '*.ts');
+const migrationsPath = path.resolve('database', 'migrations', '*.ts');
 
 export const dataSource = new DataSource({
   type: 'postgres',
