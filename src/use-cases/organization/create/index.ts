@@ -2,7 +2,7 @@ import { IOrganizationRepository } from "@/repositories/organization.repository"
 import { LoggerFunction } from "@/utils/logger";
 import { PasswordHandler } from "@/utils/passwordHandler";
 import { Organization } from "database/entities/Organization";
-import { ErrorOrganizationAlreadyExists } from "./create.error";
+import { ErrorOrganizationAlreadyExists } from "../errors";
 
 interface IOrganizationCreateUseCaseRequest {
   data: Organization
