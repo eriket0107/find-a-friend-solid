@@ -18,30 +18,30 @@ export class OrganizationCreateUseCase {
 
 
   async execute({ data, password }: IOrganizationCreateUseCaseRequest): Promise<Organization> {
-    this.logger("OrganizationCreateUseCase").info({ message: "Check if email exists" });
+    this.logger("Organization").info({ message: "Check if email exists" });
 
     const emailExists = await this.organizationRepository.findByEmail(data.email);
     const cnpjExits = await this.organizationRepository.findByCnpj(data.cnpj);
 
     if (emailExists) {
-      this.logger("OrganizationCreateUseCase").info({ messege: "Email already exists." });
+      this.logger("Organization").info({ messege: "Email already exists.", folder: 'UseCase' });
       throw new ErrorOrganizationAlreadyExists();
     }
 
 
     if (cnpjExits) {
-      this.logger("OrganizationCreateUseCase").info({ messege: "Cpnj already exists." });
+      this.logger("Organization").info({ messege: "Cpnj already exists.", folder: 'UseCase' });
       throw new ErrorOrganizationCnpjAlreadyExits();
     }
 
-    this.logger("OrganizationCreateUseCase").info({ message: "Creating organization", data });
+    this.logger("Organization").info({ message: "Creating organization", folder: 'UseCase', data });
 
 
     const passwordHash = await this.passwordHandler.hashPassword(password, 6);
 
     const organization = await this.organizationRepository.create({ ...data, password_hash: passwordHash });
 
-    this.logger("OrganizationCreateUseCase").info({ message: "Fisihing organization", data });
+    this.logger("Organization").info({ message: "Fisihing organization", folder: 'UseCase', data });
 
     return organization;
   }

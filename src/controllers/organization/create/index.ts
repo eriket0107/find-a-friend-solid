@@ -64,7 +64,8 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
       error,
       reply,
       code: 400,
-      file: 'Controller#Organization#Create',
+      folder: 'Controller',
+      entity: 'Organization'
     });
   }
 };

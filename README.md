@@ -31,7 +31,7 @@ docker compose up --build
 - [ ] It should be possible to list all pets available for adoption in a City
 - [ ] It should be possible to filter pets by their characteristics
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
-- [ ] It should be possible to register as an ORG
+- [X] It should be possible to register as an ORG
 - [ ] It should be possible to log in and log out as an ORG
 
 ## Business Rules
@@ -39,9 +39,10 @@ docker compose up --build
 - [ ] To list the pets, it is mandatory to inform the city or get automatically throguh navigator coordinates
 - [ ] It should be possible to flag the pet as adopted
 - [ ] The pet flagged as adopted should not be displayed on the list but can be accessed
-- [ ] An ORG needs to have an address and a WhatsApp number (name, address, phone, cpnj)
+- [X] An ORG needs to have an address and a WhatsApp number (name, address, phone, cpnj)
 - [ ] It should be possible to list all ORG pets
 - [ ] A pet must be linked to an ORG
 - [ ] The user who wants to adopt will contact the ORG via WhatsApp  
 - [ ] All filters, except for the city, are optional
 - [ ] For an ORG to access the application as an admin, it needs to be logged in
+- [ ] It should be possible to have a loggin session as an ORG

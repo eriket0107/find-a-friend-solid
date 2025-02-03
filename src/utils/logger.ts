@@ -4,10 +4,10 @@ import path from 'path';
 
 const BASE_LOG_DIR = path.join('logs');
 
-export type LoggerType = (category: string) => BaseLogger;
+export type LoggerType = (entity: string) => BaseLogger;
 
-export const logger = (category: string): BaseLogger => {
-  const logDir = path.join(BASE_LOG_DIR, category);
+export const logger = (entity: string): BaseLogger => {
+  const logDir = path.join(BASE_LOG_DIR, entity);
   const logFile = path.join(logDir, 'log.txt');
 
   if (!fs.existsSync(logDir)) {

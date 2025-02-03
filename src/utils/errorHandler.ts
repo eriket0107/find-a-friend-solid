@@ -6,13 +6,15 @@ export const errorHandler = ({
   reply,
   code = 400,
   message,
-  file,
+  folder,
+  entity,
 }: {
   error: unknown
   reply: FastifyReply
   code?: number
   message?: string
-  file: string
+  folder: string
+  entity: string,
 }) => {
   let errorMessage;
 
@@ -20,11 +22,11 @@ export const errorHandler = ({
     errorMessage = message || error.message;
     reply.log.error(error, message);
     console.log('[ERROR] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', {
-      file,
+      folder,
       error: errorMessage,
     });
 
-    logger(file).error({ message, error, file, code });
+    logger(entity).error({ message, error, folder, code });
     reply.status(code).send({ error: errorMessage });
     throw error;
   } else {
