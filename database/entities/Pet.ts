@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Org } from "./Org";
+import { Organization } from "./Organization";
 
 @Entity()
 export class Pet {
@@ -30,6 +30,6 @@ export class Pet {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at?: Date;
 
-  @ManyToOne(() => Org, (org) => org.id)
+  @ManyToOne(() => Organization, (organization) => organization.id)
   org_id!: string;
 }

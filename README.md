@@ -27,7 +27,7 @@ docker compose up --build
 
 - [ ] It should be possible to register a pet
 - [ ] It should be possible to update a specific pet register
-- [ ] It should be possible to list all pets available for adoption in a Org
+- [ ] It should be possible to list all pets available for adoption in a Organization
 - [ ] It should be possible to list all pets available for adoption in a City
 - [ ] It should be possible to filter pets by their characteristics
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
