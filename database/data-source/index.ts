@@ -1,10 +1,10 @@
-import { env } from '../../src/env'
-import path from 'node:path'
+import { env } from '../../src/env';
+import path from 'node:path';
 
-import { DataSource } from 'typeorm'
+import { DataSource } from 'typeorm';
 
-const entitiesPath = path.resolve('database', 'entity', '*.ts')
-const migrationsPath = path.resolve('database', 'migration', '*.ts')
+const entitiesPath = path.resolve('database', 'entity', '*.ts');
+const migrationsPath = path.resolve('database', 'migration', '*.ts');
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -16,4 +16,4 @@ export const dataSource = new DataSource({
   port: env.POSTGRES_PORT,
   username: env.POSTGRES_USER,
   password: env.POSTGRES_PASSWORD,
-})
+});

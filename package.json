@@ -9,16 +9,21 @@
     "dev": "tsx watch server.ts",
     "typeorm": "typeorm-ts-node-commonjs -d database/data-source",
     "migration:generate": "yarn typeorm migration:generate",
-    "migration:run": "yarn typeorm migration:run"
+    "migration:run": "yarn typeorm migration:run",
+    "lint": "eslint --fix"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "9.19.0",
     "@types/node": "22.13.0",
+    "eslint": "9.19.0",
+    "globals": "15.14.0",
     "ts-node": "10.9.2",
     "tsup": "8.3.6",
     "tsx": "4.19.2",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.22.0"
   },
   "dependencies": {
     "@fastify/cookie": "11.0.2",

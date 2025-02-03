@@ -22,13 +22,13 @@ export class Pet {
   breed!: string;
 
   @Column('varchar')
-  traits!: string[]
+  traits!: string[];
 
   @CreateDateColumn({ name: 'created_at' })
-  created_at?: Date
+  created_at?: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at?: Date
+  updated_at?: Date;
 
   @ManyToOne(() => Org, (org) => org.id)
   org_id!: string;

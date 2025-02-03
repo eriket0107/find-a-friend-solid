@@ -1,38 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Org {
   @PrimaryGeneratedColumn()
-  id!: string
+  id!: string;
 
   @Column({ type: "varchar", length: 255 })
   email!: string;
 
   @Column({ type: "varchar", length: 255 })
-  password_hash!: string
+  password_hash!: string;
 
   @Column({ type: "varchar", length: 255 })
-  name!: string
+  name!: string;
 
   @Column({ type: "bigint", })
-  cnpj!: number
+  cnpj!: number;
 
   @Column({ type: "bigint", })
-  whatsapp!: number
+  whatsapp!: number;
 
   @Column({ type: "bigint", })
-  cep!: number
+  cep!: number;
 
   @Column({ type: "varchar", length: 255 })
-  city!: string
+  city!: string;
 
   @Column({ type: "varchar", length: 255 })
-  state!: string
+  state!: string;
 
 
   @CreateDateColumn({ name: 'created_at' })
-  created_at?: Date
+  created_at?: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at?: Date
+  updated_at?: Date;
 }

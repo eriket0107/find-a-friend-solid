@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class PetCreation1738540958148 implements MigrationInterface {
-    name = 'PetCreation1738540958148'
+    name = 'PetCreation1738540958148';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "pet" DROP COLUMN "age"`);
