@@ -15,7 +15,7 @@ export class Pet {
   @Column({ type: "varchar", length: 255 })
   image_url!: string;
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "int" })
   age!: string;
 
   @Column({ type: "varchar", length: 255 })
