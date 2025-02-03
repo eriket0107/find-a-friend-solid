@@ -15,11 +15,11 @@ export const app = Fastify({
     transport: {
       targets: [
         {
-          target: 'pino-pretty', // Pretty logs in the console
+          target: 'pino-pretty',
           options: { colorize: true },
         },
         {
-          target: 'pino/file', // Save logs to a file
+          target: 'pino/file',
           options: { destination: './logs/logs.txt', mkdir: true },
         },
       ],
