@@ -2,14 +2,14 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 
 @Entity()
 export class Organization {
-  @PrimaryGeneratedColumn()
-  id!: string;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
   @Column({ type: "varchar", length: 255 })
   email!: string;
 
   @Column({ type: "varchar", length: 255 })
-  password_hash!: string;
+  password_hash?: string;
 
   @Column({ type: "varchar", length: 255 })
   name!: string;
@@ -29,6 +29,11 @@ export class Organization {
   @Column({ type: "varchar", length: 255 })
   state!: string;
 
+  @Column({ type: "varchar", length: 255 })
+  street!: string;
+
+  @Column({ type: "varchar", length: 255 })
+  country!: string;
 
   @CreateDateColumn({ name: 'created_at' })
   created_at?: Date;
