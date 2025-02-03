@@ -4,7 +4,7 @@ import { dataSource } from "database/data-source";
 import { Repository } from "typeorm";
 
 export class OrganizationTypeOrmRepository implements IOrganizationRepository {
-  private repository: Repository<Organization>
+  private repository: Repository<Organization>;
   constructor() {
     this.repository = dataSource.getRepository(Organization);
   }
