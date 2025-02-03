@@ -4,7 +4,7 @@ import path from 'path';
 
 const BASE_LOG_DIR = path.join('logs');
 
-export type LoggerFunction = (category: string) => BaseLogger;
+export type LoggerType = (category: string) => BaseLogger;
 
 export const logger = (category: string): BaseLogger => {
   const logDir = path.join(BASE_LOG_DIR, category);

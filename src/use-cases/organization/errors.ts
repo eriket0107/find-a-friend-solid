@@ -1,6 +1,12 @@
 export class ErrorOrganizationAlreadyExists extends Error {
-  constructor(email: string) {
-    super(`Organization already exists ${email}`);
+  constructor() {
+    super(`Organization already exists. `);
+    this.name = "ErrorOrganizationAlreadyExists";
+  }
+}
+export class ErrorOrganizationCnpjAlreadyExits extends Error {
+  constructor() {
+    super(`Organization already exists.`);
     this.name = "ErrorOrganizationAlreadyExists";
   }
 }
