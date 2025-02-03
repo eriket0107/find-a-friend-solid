@@ -7,6 +7,7 @@ import Fastify from "fastify";
 import { ZodError } from "zod";
 import { env } from "./env";
 import { logger } from "./utils/logger";
+import { routes } from "./routes";
 
 
 export const app = Fastify({
@@ -49,7 +50,7 @@ app
   })
   .withTypeProvider();
 
-// routes()
+routes();
 
 app.setErrorHandler((error, _, reply) => {
   logger("app").error({
