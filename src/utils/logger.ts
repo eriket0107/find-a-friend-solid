@@ -1,10 +1,12 @@
-import pino from 'pino';
+import pino, { BaseLogger } from 'pino';
 import fs from 'fs';
 import path from 'path';
 
 const BASE_LOG_DIR = path.join('logs');
 
-export const logger = (category: string) => {
+export type LoggerFunction = (category: string) => BaseLogger;
+
+export const logger = (category: string): BaseLogger => {
   const logDir = path.join(BASE_LOG_DIR, category);
   const logFile = path.join(logDir, 'log.txt');
 
