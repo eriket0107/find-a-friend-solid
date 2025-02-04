@@ -12,11 +12,10 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
     return organization;
   }
 
-
   async create(data: Organization): Promise<Organization> {
     const organization: Organization = {
       id: randomUUID(),
-      ...data
+      ...data,
     };
     this.repository.push(organization);
 
@@ -24,8 +23,42 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
   }
 
   async findByCnpj(cnpj: number): Promise<Organization | null> {
-    const organization = this.repository.find((data) => data.cnpj === cnpj) || null;
+    const organization =
+      this.repository.find((data) => data.cnpj === cnpj) || null;
 
     return organization;
+  }
+
+  delete(id: string) {
+    this.repository = this.repository.filter((data) => data.id !== id);
+  }
+
+  async update({
+    id,
+    data,
+  }: {
+    id: string;
+    data: Partial<Organization>;
+  }): Promise<Organization> {
+    const organizationToUpdate = this.repository.find((org) => org.id === id);
+
+    if (!organizationToUpdate) throw new Error("Organization not found");
+
+    Object.assign(organizationToUpdate, data);
+
+    return organizationToUpdate;
+  }
+
+  async get(id: string): Promise<Organization> {
+    const organizationToGetById = this.repository.find(
+      (data) => data.id === id
+    );
+
+    if (!organizationToGetById) throw new Error("Organization not found");
+
+    return organizationToGetById;
+  }
+  async list(): Promise<Organization[]> {
+    return this.repository;
   }
 }

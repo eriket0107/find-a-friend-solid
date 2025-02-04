@@ -45,7 +45,7 @@ describe("Organization Creation Use Case", () => {
       country: "BRA",
     };
 
-    const organization = await sut.execute({
+    const { organization } = await sut.execute({
       data,
       password: "123456",
     });
