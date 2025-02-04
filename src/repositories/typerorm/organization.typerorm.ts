@@ -12,10 +12,10 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
   async create(data: Organization): Promise<Organization> {
     return await this.repository.save(data);
   }
-  async findByEmail(email: string): Promise<Organization | null> {
+  async getByEmail(email: string): Promise<Organization | null> {
     return await this.repository.findOne({ where: { email } });
   }
-  async findByCnpj(cnpj: number): Promise<Organization | null> {
+  async getByCnpj(cnpj: number): Promise<Organization | null> {
     return await this.repository.findOne({ where: { cnpj } });
   }
 
@@ -42,7 +42,7 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
 
     return await this.repository.findOne({ where: { id } });
   }
-  async get(id: string): Promise<Organization | null> {
+  async getById(id: string): Promise<Organization | null> {
 
     const organizationToGetById = await this.repository.findOne({
       where: { id },

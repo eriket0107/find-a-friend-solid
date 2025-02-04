@@ -1,37 +1,38 @@
 import { IOrganizationRepository } from "@/repositories/organization.repository";
 import { LoggerType } from "@/utils/logger";
 import { Organization } from "database/entities/Organization";
+import { ErrorOrganizationNotFound } from "../errors";
 
-interface IGetOrganizationUseCaseRequest {
+interface IGetByIdOrganizationUseCaseRequest {
   id: string;
 }
 
-interface IGetOrganizationUseCaseResponse {
+interface IGetByIdOrganizationUseCaseResponse {
   organization: Organization;
 }
 
-export class GetOrganizationUseCase {
+export class GetByIdOrganizationUseCase {
   constructor(
-    private readonly organizationRepository: IOrganizationRepository,
+    private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType
   ) { }
 
   async execute({
     id,
-  }: IGetOrganizationUseCaseRequest): Promise<IGetOrganizationUseCaseResponse> {
+  }: IGetByIdOrganizationUseCaseRequest): Promise<IGetByIdOrganizationUseCaseResponse> {
     this.logger("Organization").info({
       messege: `Start get with id: ${id}`,
       folder: "Get UseCase",
     });
 
-    const organization = await this.organizationRepository.get(id);
+    const organization = await this.repository.getById(id);
 
     if (!organization) {
       this.logger("Organization").info({
         messege: `'Any Organization avaible upon id: ${id}`,
         folder: "Get UseCase",
       });
-      throw new Error("Any Organization avaible.");
+      throw new ErrorOrganizationNotFound();
     }
 
     this.logger("Organization").info({

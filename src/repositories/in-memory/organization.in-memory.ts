@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 export class OrganizationInMemoryRepository implements IOrganizationRepository {
   private repository: Organization[] = [];
 
-  async findByEmail(email: string): Promise<Organization | null> {
+  async getByEmail(email: string): Promise<Organization | null> {
     const organization =
       this.repository.find((data) => data.email === email) || null;
 
@@ -22,7 +22,7 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
     return organization;
   }
 
-  async findByCnpj(cnpj: number): Promise<Organization | null> {
+  async getByCnpj(cnpj: number): Promise<Organization | null> {
     const organization =
       this.repository.find((data) => data.cnpj === cnpj) || null;
 
@@ -49,7 +49,7 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
     return organizationToUpdate;
   }
 
-  async get(id: string): Promise<Organization> {
+  async getById(id: string): Promise<Organization> {
     const organizationToGetById = this.repository.find(
       (data) => data.id === id
     );

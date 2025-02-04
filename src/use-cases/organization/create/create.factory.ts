@@ -1,5 +1,5 @@
 import { OrganizationTypeOrmRepository } from "@/repositories/typerorm/organization.typerorm";
-import { PasswordHandler } from "@/utils/passwordHandler";
+import { PasswordHandler } from "@/utils/password-pandler";
 import { CreateOrganizationUseCase } from ".";
 import { logger } from "@/utils/logger";
 

@@ -1,5 +1,5 @@
 import { makeCreateOrganization } from "@/use-cases/organization/create/create.factory";
-import { errorHandler } from "@/utils/errorHandler";
+import { errorHandler } from "@/utils/error-handler";
 import { Organization } from "database/entities/Organization";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";

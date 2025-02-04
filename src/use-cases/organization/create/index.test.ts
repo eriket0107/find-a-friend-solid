@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CreateOrganizationUseCase } from ".";
-import { PasswordHandler } from "@/utils/passwordHandler";
+import { PasswordHandler } from "@/utils/password-pandler";
 import { LoggerType } from "@/utils/logger";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
 import { Organization } from "database/entities/Organization";
