@@ -17,7 +17,7 @@
     "migration:generate": "yarn typeorm migration:generate",
     "migration:run": "yarn typeorm migration:run",
     "lint": "eslint --fix --ignore-pattern 'dist/*'",
-    "lint:ci": "eslint --fix",
+    "lint:ci": "yarn eslint --fix --ignore-pattern 'dist/*'",
     "prepare": "husky"
   },
   "author": "",
