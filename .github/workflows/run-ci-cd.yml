@@ -38,7 +38,7 @@ jobs:
       - name: Run lint:ci
         run: |
           cd /home/runner/work/find-a-friend-solid
-          yarn run lint:ci
+          yarn lint:ci
 
   run-unit-tests:
     name: Run Unit Tests
@@ -49,5 +49,5 @@ jobs:
       - name: Run tests
         run: |
           cd /home/runner/work/find-a-friend-solid
-          yarn run test
+          yarn test
 
