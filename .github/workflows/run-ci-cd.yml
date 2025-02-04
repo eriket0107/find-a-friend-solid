@@ -1,5 +1,4 @@
 name: Run CI/CD
-
 on:
   push:
     branches:
@@ -10,10 +9,9 @@ on:
     branches:
       - main
       - develop
-
 jobs:
   setup:
-    name: Setup Node.js and Install Dependencies
+    name: Run Setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,27 +41,75 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Run lint:ci
         run: yarn lint:ci
 
   run-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    needs: setup
+    needs: lint
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Run Tests
         run: yarn test
 
   build:
-    name: Build the Project
+    name: Build the project
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Build the project
         run: yarn build
