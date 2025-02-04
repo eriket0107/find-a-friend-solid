@@ -18,16 +18,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+            submodules: 'true'
+            
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
 
+        
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        
+
+      - name: List files in the repository
+        run: ls -al
+
   lint:
     name: Run Linting
     runs-on: ubuntu-latest
