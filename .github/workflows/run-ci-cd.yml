@@ -19,32 +19,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
+        run: |
+          cd /home/runner/work/find-a-friend-solid
+          yarn install --frozen-lockfile
 
   lint:
     name: Run Linting
     runs-on: ubuntu-latest
-    needs: setup 
+    needs: setup
 
     steps:
-      - name: Run tests
-        run: yarn run lint:ci
-        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
+      - name: Run lint:ci
+        run: |
+          cd /home/runner/work/find-a-friend-solid
+          yarn run lint:ci
 
   run-unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    needs: setup 
+    needs: setup
 
     steps:
       - name: Run tests
-        run:  yarn run test
-        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
+        run: |
+          cd /home/runner/work/find-a-friend-solid
+          yarn run test
+
