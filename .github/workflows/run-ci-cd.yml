@@ -17,8 +17,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: /home/runner/work/find-a-friend-solid
-          
+          path: /home/runner/work/find-a-friend-solid/find-a-friend-solid
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
