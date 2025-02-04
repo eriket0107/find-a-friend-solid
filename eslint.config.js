@@ -17,7 +17,7 @@ export default [
       "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
       semi: ["error", "always"],
       "no-unused-expressions": "error",
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
   pluginJs.configs.recommended,

@@ -70,6 +70,7 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
 
     for (const [key, value] of Object.entries(filter)) {
       if (typeof value === "string") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         whereConditions[key as keyof Organization] = ILike(`%${value}%`) as any;
       }
     }
