@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "## To start application",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node build/index.js",
     "build": "tsup src --out-dir dist",
