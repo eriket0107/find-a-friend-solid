@@ -1,7 +1,7 @@
 import { Organization } from "database/entities/Organization";
 import { IOrganizationRepository } from "../organization.repository";
 import { dataSource } from "database/data-source";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, ILike, Repository } from "typeorm";
 
 export class OrganizationTypeOrmRepository implements IOrganizationRepository {
   private repository: Repository<Organization>;
@@ -59,18 +59,27 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
     order,
     take: limit = 10,
     skip = 0,
+    filter = {},
   }: {
     where?: Partial<Organization>;
     order?: Record<string, "ASC" | "DESC">;
     take?: number;
     skip?: number;
+    filter?: Partial<Record<keyof Organization, string>>;
   }): Promise<Organization[]> {
+    const whereConditions: FindOptionsWhere<Organization> = { ...where };
+
+    for (const [key, value] of Object.entries(filter)) {
+      if (typeof value === "string") {
+        whereConditions[key as keyof Organization] = ILike(`%${value}%`) as any;
+      }
+    }
+
     return await this.repository.find({
-      where,
+      where: whereConditions,
       order,
       take: limit,
       skip,
-
     });
   }
 }

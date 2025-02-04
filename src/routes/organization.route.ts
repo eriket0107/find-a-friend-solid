@@ -8,7 +8,7 @@ const organizationSchema = {
     email: { type: 'string', format: 'email' },
     password_hash: { type: 'string', nullable: true },
     name: { type: 'string', maxLength: 255 },
-    cnpj: { type: 'integer', minimum: 10000000000000, maximum: 99999999999999 }, // 14 digits for CNPJ
+    cnpj: { type: 'integer', minimum: 10000000000000, maximum: 99999999999999 },
     whatsapp: { type: 'integer' },
     cep: { type: 'integer' },
     city: { type: 'string', maxLength: 255 },

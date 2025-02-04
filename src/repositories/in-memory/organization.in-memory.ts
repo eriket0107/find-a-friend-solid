@@ -58,7 +58,59 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
 
     return organizationToGetById;
   }
-  async list(): Promise<Organization[]> {
-    return this.repository;
+  async list({
+    where,
+    order,
+    take: limit = 10,
+    skip = 0,
+    filter = {},
+  }: {
+    where?: Partial<Organization>;
+    order?: Record<string, "ASC" | "DESC">;
+    take?: number;
+    skip?: number;
+    filter?: Partial<Record<keyof Organization, string>>;
+  } = {}): Promise<Organization[]> {
+    let results = this.repository;
+
+    if (filter) {
+      results = results.filter((org) => {
+        return Object.entries(filter).every(([key, value]) => {
+          const orgValue = org[key as keyof Organization];
+          if (typeof orgValue === "string" && typeof value === "string") {
+            return orgValue.toLowerCase().includes(value.toLowerCase());
+          }
+          return orgValue === value;
+        });
+      });
+    }
+
+    if (where) {
+      results = results.filter((org) => {
+        return Object.entries(where).every(([key, value]) => {
+          return org[key as keyof Organization] === value;
+        });
+      });
+    }
+
+    if (order) {
+      results = results.sort((a, b) => {
+        for (const [key, direction] of Object.entries(order)) {
+          const aValue = a[key as keyof Organization];
+          const bValue = b[key as keyof Organization];
+
+          if (aValue && bValue) {
+            if (aValue < bValue) return direction === "ASC" ? -1 : 1;
+            if (aValue > bValue) return direction === "ASC" ? 1 : -1;
+          }
+        }
+
+        return 0;
+      });
+    }
+
+    const start = skip;
+    const end = skip + limit;
+    return results.slice(start, end);
   }
 }
