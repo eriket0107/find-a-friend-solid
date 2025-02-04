@@ -18,24 +18,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-            submodules: 'true'
+
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: yarn
-
-        
-      - name: Clear Yarn Cache
-        run: yarn cache clean
+          node-version: 22
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
-      - name: List files in the repository
-        run: ls -al
 
   lint:
     name: Run Linting
@@ -49,7 +40,7 @@ jobs:
   run-unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    needs: lint 
+    needs: setup 
 
     steps:
       - name: Run tests
