@@ -20,6 +20,7 @@ export class DeleteOrganizationeUseCase {
     this.logger("Organization").info({
       message: "Check if organization exists.",
       folder: "Delete UseCase",
+      id,
     });
 
     const organizationExists = await this.repository.getById(id);
@@ -35,6 +36,7 @@ export class DeleteOrganizationeUseCase {
     this.logger("Organization").info({
       message: "Start delete.",
       folder: "Delete UseCase",
+      id,
     });
 
     this.repository.delete(id);
@@ -42,6 +44,7 @@ export class DeleteOrganizationeUseCase {
     this.logger("Organization").info({
       message: "Finish delete.",
       folder: "Delete UseCase",
+      id,
     });
 
     return {

@@ -21,23 +21,26 @@ export class GetByIdOrganizationUseCase {
     id,
   }: IGetByIdOrganizationUseCaseRequest): Promise<IGetByIdOrganizationUseCaseResponse> {
     this.logger("Organization").info({
-      messege: `Start get with id: ${id}`,
-      folder: "Get UseCase",
+      messege: `Start get by id`,
+      id,
+      folder: "Get By Id UseCase",
     });
 
     const organization = await this.repository.getById(id);
 
     if (!organization) {
       this.logger("Organization").info({
-        messege: `'Any Organization avaible upon id: ${id}`,
-        folder: "Get UseCase",
+        messege: `'Any Organization avaible upon id`,
+        id,
+        folder: "Get By Id UseCase",
       });
       throw new ErrorOrganizationNotFound();
     }
 
     this.logger("Organization").info({
       messege: `Fiinish get`,
-      folder: "Get UseCase",
+      id,
+      folder: "Get By Id UseCase",
     });
 
     return { organization };
