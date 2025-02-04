@@ -1,5 +1,5 @@
-import { FastifyReply } from 'fastify';
-import { logger } from './logger';
+import { FastifyReply } from "fastify";
+import { logger } from "./logger";
 
 export const errorHandler = ({
   error,
@@ -9,19 +9,19 @@ export const errorHandler = ({
   folder,
   entity,
 }: {
-  error: unknown
-  reply: FastifyReply
-  code?: number
-  message?: string
-  folder: string
-  entity: string,
+  error: unknown;
+  reply: FastifyReply;
+  code?: number;
+  message?: string;
+  folder: string;
+  entity: string;
 }) => {
   let errorMessage;
 
   if (error instanceof Error) {
     errorMessage = message || error.message;
     reply.log.error(error, message);
-    console.log('[ERROR] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', {
+    console.log("[ERROR] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", {
       folder,
       error: errorMessage,
     });
@@ -31,6 +31,6 @@ export const errorHandler = ({
     throw error;
   } else {
     reply.log.error(error, message);
-    console.error('Add some tool to track errors');
+    console.error("Add some tool to track errors");
   }
 };

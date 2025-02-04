@@ -20,8 +20,8 @@ export class CreateOrganizationUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-    private readonly passwordHandler: PasswordHandler
-  ) { }
+    private readonly passwordHandler: PasswordHandler,
+  ) {}
 
   async execute({
     data,
@@ -32,9 +32,7 @@ export class CreateOrganizationUseCase {
       folder: "Create UseCase",
     });
 
-    const emailExists = await this.repository.getByEmail(
-      data.email
-    );
+    const emailExists = await this.repository.getByEmail(data.email);
     const cnpjExits = await this.repository.getByCnpj(data.cnpj);
 
     if (emailExists) {

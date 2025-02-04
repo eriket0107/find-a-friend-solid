@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class Organization {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id?: string;
 
   @Column({ type: "varchar", length: 255 })
@@ -14,13 +20,13 @@ export class Organization {
   @Column({ type: "varchar", length: 255 })
   name!: string;
 
-  @Column({ type: "bigint", })
+  @Column({ type: "bigint" })
   cnpj!: number;
 
-  @Column({ type: "bigint", })
+  @Column({ type: "bigint" })
   whatsapp!: number;
 
-  @Column({ type: "bigint", })
+  @Column({ type: "bigint" })
   cep!: number;
 
   @Column({ type: "varchar", length: 255 })
@@ -35,9 +41,9 @@ export class Organization {
   @Column({ type: "varchar", length: 255 })
   country!: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: "created_at" })
   created_at?: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: "updated_at" })
   updated_at?: Date;
 }

@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { Organization } from "./Organization";
 
 @Entity()
@@ -21,13 +28,13 @@ export class Pet {
   @Column({ type: "varchar", length: 255 })
   breed!: string;
 
-  @Column('varchar')
+  @Column("varchar")
   traits!: string[];
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: "created_at" })
   created_at?: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: "updated_at" })
   updated_at?: Date;
 
   @ManyToOne(() => Organization, (organization) => organization.id)

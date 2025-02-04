@@ -51,7 +51,7 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
 
   async getById(id: string): Promise<Organization> {
     const organizationToGetById = this.repository.find(
-      (data) => data.id === id
+      (data) => data.id === id,
     );
 
     if (!organizationToGetById) throw new Error("Organization not found");

@@ -11,16 +11,18 @@ interface IListOrganizationsRequest {
 }
 
 interface IListOrganizationsResponse {
-  organizations: Organization[]
+  organizations: Organization[];
 }
 
 export class ListOrganizationUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
-    private readonly logger: LoggerType
-  ) { }
+    private readonly logger: LoggerType,
+  ) {}
 
-  async execute(params: IListOrganizationsRequest): Promise<IListOrganizationsResponse> {
+  async execute(
+    params: IListOrganizationsRequest,
+  ): Promise<IListOrganizationsResponse> {
     this.logger("Organization").info({
       message: `Start listing organizations`,
       folder: "List Organization UseCase",

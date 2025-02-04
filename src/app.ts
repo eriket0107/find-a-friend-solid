@@ -9,19 +9,18 @@ import { env } from "./env";
 import { logger } from "./utils/logger";
 import { routes } from "./routes";
 
-
 export const app = Fastify({
   logger: {
-    level: 'info',
+    level: "info",
     transport: {
       targets: [
         {
-          target: 'pino-pretty',
+          target: "pino-pretty",
           options: { colorize: true },
         },
         {
-          target: 'pino/file',
-          options: { destination: './logs/logs.txt', mkdir: true },
+          target: "pino/file",
+          options: { destination: "./logs/logs.txt", mkdir: true },
         },
       ],
     },

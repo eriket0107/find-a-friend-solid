@@ -43,7 +43,6 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
     return await this.repository.findOne({ where: { id } });
   }
   async getById(id: string): Promise<Organization | null> {
-
     const organizationToGetById = await this.repository.findOne({
       where: { id },
     });

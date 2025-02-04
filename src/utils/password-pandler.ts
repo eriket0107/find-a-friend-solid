@@ -1,4 +1,4 @@
-import { compare, hash } from 'bcryptjs';
+import { compare, hash } from "bcryptjs";
 
 export class PasswordHandler {
   async hashPassword(password: string, salt: number): Promise<string> {

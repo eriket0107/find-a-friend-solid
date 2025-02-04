@@ -4,13 +4,16 @@ import { PasswordHandler } from "@/utils/password-pandler";
 import { LoggerType } from "@/utils/logger";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
 import { Organization } from "database/entities/Organization";
-import { ErrorOrganizationAlreadyExists, ErrorOrganizationCnpjAlreadyExits } from "../errors";
+import {
+  ErrorOrganizationAlreadyExists,
+  ErrorOrganizationCnpjAlreadyExits,
+} from "../errors";
 
 let sut: CreateOrganizationUseCase;
 let organizationInMemoryRepository: OrganizationInMemoryRepository;
 let passwordHandler: PasswordHandler;
 
-const logger: LoggerType = vi.fn((level: string = 'info') => ({
+const logger: LoggerType = vi.fn((level: string = "info") => ({
   level,
   debug: vi.fn(),
   error: vi.fn(),
@@ -28,7 +31,7 @@ describe("Organization Creation Use Case", () => {
     sut = new CreateOrganizationUseCase(
       organizationInMemoryRepository,
       logger,
-      passwordHandler
+      passwordHandler,
     );
   });
 
@@ -72,12 +75,12 @@ describe("Organization Creation Use Case", () => {
       password: "123456",
     });
 
-    await expect(sut.execute({
-      data,
-      password: "123456",
-    })
+    await expect(
+      sut.execute({
+        data,
+        password: "123456",
+      }),
     ).rejects.toBeInstanceOf(ErrorOrganizationAlreadyExists);
-
   });
 
   it("shoul not be able to create an organization with duplicated cnpj", async () => {
@@ -98,15 +101,14 @@ describe("Organization Creation Use Case", () => {
       password: "123456",
     });
 
-
-    await expect(sut.execute({
-      data: {
-        ...data,
-        email: "org1@gmail.com",
-      },
-      password: "123456",
-    })
+    await expect(
+      sut.execute({
+        data: {
+          ...data,
+          email: "org1@gmail.com",
+        },
+        password: "123456",
+      }),
     ).rejects.toBeInstanceOf(ErrorOrganizationCnpjAlreadyExits);
-
   });
 });

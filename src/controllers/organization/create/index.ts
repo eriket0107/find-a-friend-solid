@@ -58,8 +58,8 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
       error,
       reply,
       code: 400,
-      folder: 'Controller',
-      entity: 'Organization'
+      folder: "Controller",
+      entity: "Organization",
     });
   }
 };

@@ -4,7 +4,10 @@ import { DeleteOrganizationeUseCase } from ".";
 
 export const makeDeleteOrganization = () => {
   const organizationRepository = new OrganizationTypeOrmRepository();
-  const deleteOrganizationUseCase = new DeleteOrganizationeUseCase(organizationRepository, logger);
+  const deleteOrganizationUseCase = new DeleteOrganizationeUseCase(
+    organizationRepository,
+    logger,
+  );
 
   return deleteOrganizationUseCase;
 };

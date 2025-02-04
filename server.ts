@@ -9,7 +9,9 @@ import { dataSource } from "database/data-source";
 dataSource
   .initialize()
   .then(async () => {
-    console.log(`🚀 Data Source has been initialized on port: ${env.POSTGRES_PORT}.`);
+    console.log(
+      `🚀 Data Source has been initialized on port: ${env.POSTGRES_PORT}.`,
+    );
     app.listen({ port: env.PORT }, (err, port) => {
       if (err) throw err;
 
@@ -19,7 +21,7 @@ dataSource
       writeFile(
         resolve(__dirname, "swagger.json"),
         JSON.stringify(spec, null, 2),
-        "utf-8"
+        "utf-8",
       );
     });
   })

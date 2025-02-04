@@ -4,7 +4,10 @@ import { GetByIdOrganizationUseCase } from ".";
 
 export const makeDeleteOrganization = () => {
   const organizationRepository = new OrganizationTypeOrmRepository();
-  const getByIdOrganizationUseCase = new GetByIdOrganizationUseCase(organizationRepository, logger);
+  const getByIdOrganizationUseCase = new GetByIdOrganizationUseCase(
+    organizationRepository,
+    logger,
+  );
 
   return getByIdOrganizationUseCase;
 };

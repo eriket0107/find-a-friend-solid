@@ -4,27 +4,29 @@ import { Organization } from "database/entities/Organization";
 import { ErrorOrganizationNotFound } from "../errors";
 
 interface UpdateOrganizationUseCaseRequest {
-  id: string
-  data: Organization
+  id: string;
+  data: Organization;
 }
 
 interface UpdateOrganizationUseCaseResponse {
-  updatedOrganization: Organization | null
+  updatedOrganization: Organization | null;
 }
 
 export class UpdateOrganizationUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
-  async execute({ id, data }: UpdateOrganizationUseCaseRequest): Promise<UpdateOrganizationUseCaseResponse> {
+  async execute({
+    id,
+    data,
+  }: UpdateOrganizationUseCaseRequest): Promise<UpdateOrganizationUseCaseResponse> {
     this.logger("Organization").info({
       messege: `Start update`,
       id,
       folder: "Update UseCase",
     });
-
 
     const organizationExits = await this.repository.getById(id);
 
@@ -40,7 +42,7 @@ export class UpdateOrganizationUseCase {
     const updatedOrganization = await this.repository.update({ id, data });
 
     return {
-      updatedOrganization
+      updatedOrganization,
     };
   }
 }

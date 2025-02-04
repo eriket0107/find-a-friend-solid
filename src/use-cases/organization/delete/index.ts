@@ -7,16 +7,18 @@ interface IDeleteOrganizationeUseCaseRequest {
 }
 
 interface IDeleteOrganizationeUseCaseResponse {
-  message: string
+  message: string;
 }
 
 export class DeleteOrganizationeUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
-    private readonly logger: LoggerType
-  ) { }
+    private readonly logger: LoggerType,
+  ) {}
 
-  async execute({ id }: IDeleteOrganizationeUseCaseRequest): Promise<IDeleteOrganizationeUseCaseResponse> {
+  async execute({
+    id,
+  }: IDeleteOrganizationeUseCaseRequest): Promise<IDeleteOrganizationeUseCaseResponse> {
     this.logger("Organization").info({
       message: "Check if organization exists.",
       folder: "Delete UseCase",
@@ -48,7 +50,7 @@ export class DeleteOrganizationeUseCase {
     });
 
     return {
-      message: "OK"
+      message: "OK",
     };
   }
 }
