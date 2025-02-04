@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { OrganizationCreateUseCase } from ".";
+import { CreateOrganizationUseCase } from ".";
 import { PasswordHandler } from "@/utils/passwordHandler";
 import { LoggerType } from "@/utils/logger";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
 import { Organization } from "database/entities/Organization";
 import { ErrorOrganizationAlreadyExists, ErrorOrganizationCnpjAlreadyExits } from "../errors";
 
-let sut: OrganizationCreateUseCase;
+let sut: CreateOrganizationUseCase;
 let organizationInMemoryRepository: OrganizationInMemoryRepository;
 let passwordHandler: PasswordHandler;
 
@@ -25,7 +25,7 @@ describe("Organization Creation Use Case", () => {
   beforeEach(() => {
     organizationInMemoryRepository = new OrganizationInMemoryRepository();
     passwordHandler = new PasswordHandler();
-    sut = new OrganizationCreateUseCase(
+    sut = new CreateOrganizationUseCase(
       organizationInMemoryRepository,
       logger,
       passwordHandler

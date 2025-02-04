@@ -7,16 +7,16 @@ import {
   ErrorOrganizationCnpjAlreadyExits,
 } from "../errors";
 
-interface IOrganizationCreateUseCaseRequest {
+interface ICreateOrganizationUseCaseRequest {
   data: Organization;
   password: string;
 }
 
-interface IOrganizationCreateUseCaseResponse {
+interface ICreateOrganizationUseCaseResponse {
   organization: Organization;
 }
 
-export class OrganizationCreateUseCase {
+export class CreateOrganizationUseCase {
   constructor(
     private readonly organizationRepository: IOrganizationRepository,
     private readonly logger: LoggerType,
@@ -26,7 +26,7 @@ export class OrganizationCreateUseCase {
   async execute({
     data,
     password,
-  }: IOrganizationCreateUseCaseRequest): Promise<IOrganizationCreateUseCaseResponse> {
+  }: ICreateOrganizationUseCaseRequest): Promise<ICreateOrganizationUseCaseResponse> {
     this.logger("Organization").info({ message: "Check if email exists" });
 
     const emailExists = await this.organizationRepository.findByEmail(

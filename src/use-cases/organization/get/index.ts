@@ -2,15 +2,15 @@ import { IOrganizationRepository } from "@/repositories/organization.repository"
 import { LoggerType } from "@/utils/logger";
 import { Organization } from "database/entities/Organization";
 
-interface IOrganizationGetUseCaseRequest {
+interface IGetOrganizationUseCaseRequest {
   id: string;
 }
 
-interface IOrganizationGetUseCaseResponse {
+interface IGetOrganizationUseCaseResponse {
   organization: Organization;
 }
 
-export class OrganizationGetUseCase {
+export class GetOrganizationUseCase {
   constructor(
     private readonly organizationRepository: IOrganizationRepository,
     private readonly logger: LoggerType
@@ -18,7 +18,7 @@ export class OrganizationGetUseCase {
 
   async execute({
     id,
-  }: IOrganizationGetUseCaseRequest): Promise<IOrganizationGetUseCaseResponse> {
+  }: IGetOrganizationUseCaseRequest): Promise<IGetOrganizationUseCaseResponse> {
     this.logger("Organization").info({
       messege: `Start get with id: ${id}`,
       folder: "Get UseCase",

@@ -1,16 +1,10 @@
-import { OrganizationTypeOrmRepository } from "@/repositories/typerorm/organization.typerorm";
-import { OrganizationCreateUseCase } from "@/use-cases/organization/create";
+import { makeCreateOrganization } from "@/use-cases/organization/create/create.factory";
 import { errorHandler } from "@/utils/errorHandler";
-import { logger } from "@/utils/logger";
-import { PasswordHandler } from "@/utils/passwordHandler";
 import { Organization } from "database/entities/Organization";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-const passwordHandler = new PasswordHandler();
-const organizationRepository = new OrganizationTypeOrmRepository();
-const createOrganizationUseCase = new OrganizationCreateUseCase(organizationRepository, logger, passwordHandler);
-
+const createOrganizationUseCase = makeCreateOrganization();
 
 export const create = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
