@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        working-directory: /home/runner/work/find-a-friend-solid 
+        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
 
   lint:
     name: Run Linting
@@ -37,6 +37,7 @@ jobs:
     steps:
       - name: Run tests
         run: yarn run lint:ci
+        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
 
   run-unit-tests:
     name: Run Unit Tests
@@ -46,4 +47,4 @@ jobs:
     steps:
       - name: Run tests
         run:  yarn run test
-        working-directory: /home/runner/work/find-a-friend-solid 
+        working-directory: /home/runner/work/find-a-friend-solid/find-a-friend-solid
