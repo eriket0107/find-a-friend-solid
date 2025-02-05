@@ -47,14 +47,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # - name: Restore node_modules
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: node_modules
-      #     path: node_modules
+      - name: Restore node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
               
       - name: List files in the repository
         run: |
@@ -71,8 +71,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -84,6 +84,12 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       
+      - name: Restore node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
@@ -95,12 +101,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: [run-tests, setup]
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+
+      - name: Restore node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
