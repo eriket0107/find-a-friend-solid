@@ -33,47 +33,15 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-  lint:
-    name: Run Linting
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
       - name: Run lint:ci
         run: yarn lint:ci
-
-  run-tests:
-    name: Run Unit Tests
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
 
       - name: Run Tests
         run: yarn test
 
-  build:
-    name: Build the project
-    runs-on: ubuntu-latest
-    needs: [run-tests, setup]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-          
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
       - name: Build the project
         run: yarn build
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
