@@ -43,18 +43,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      # - name: Cache node_modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-modules-
               
       - name: List files in the repository
         run: |
@@ -79,13 +79,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      # - name: Cache node_modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-modules-
 
       - name: List files in the repository
         run: |
@@ -105,23 +105,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      # - name: Cache node_modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-modules-
 
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
