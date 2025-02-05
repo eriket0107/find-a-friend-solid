@@ -13,6 +13,6 @@ export class ErrorOrganizationCnpjAlreadyExits extends Error {
 
 export class ErrorOrganizationNotFound extends Error {
   constructor() {
-    super("Organization not found exists.");
+    super("Organization not found.");
   }
 }

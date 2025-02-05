@@ -15,7 +15,7 @@ export class GetByIdOrganizationUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) {}
+  ) { }
 
   async execute({
     id,
@@ -38,7 +38,7 @@ export class GetByIdOrganizationUseCase {
     }
 
     this.logger("Organization").info({
-      messege: `Fiinish get`,
+      messege: `Finish get`,
       id,
       folder: "Get By Id UseCase",
     });

@@ -4,25 +4,25 @@ import { Organization } from "database/entities/Organization";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
+const createOrganizationRequestSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+  cnpj: z.number().min(14, { message: "must have cnpj correct length" }),
+  whatsapp: z
+    .number()
+    .min(11, { message: "must have whatsapp correct length" }),
+  street: z.string(),
+  city: z.string(),
+  state: z.string(),
+  cep: z.number(),
+  country: z.string(),
+});
+
 const createOrganizationUseCase = makeCreateOrganization();
 
 export const create = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const createOrganizationRequestSchema = z.object({
-      name: z.string(),
-      email: z.string().email(),
-      password: z.string(),
-      cnpj: z.number().min(14, { message: "must have cnpj correct length" }),
-      whatsapp: z
-        .number()
-        .min(11, { message: "must have whatsapp correct length" }),
-      street: z.string(),
-      city: z.string(),
-      state: z.string(),
-      cep: z.number(),
-      country: z.string(),
-    });
-
     const {
       name,
       email,

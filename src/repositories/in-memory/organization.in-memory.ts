@@ -39,22 +39,22 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
   }: {
     id: string;
     data: Partial<Organization>;
-  }): Promise<Organization> {
+  }): Promise<Organization | null> {
     const organizationToUpdate = this.repository.find((org) => org.id === id);
 
-    if (!organizationToUpdate) throw new Error("Organization not found");
+    if (!organizationToUpdate) return null;
 
     Object.assign(organizationToUpdate, data);
 
     return organizationToUpdate;
   }
 
-  async getById(id: string): Promise<Organization> {
+  async getById(id: string): Promise<Organization | null> {
     const organizationToGetById = this.repository.find(
       (data) => data.id === id,
     );
 
-    if (!organizationToGetById) throw new Error("Organization not found");
+    if (!organizationToGetById) return null;
 
     return organizationToGetById;
   }

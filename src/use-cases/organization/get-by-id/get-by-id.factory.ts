@@ -2,7 +2,7 @@ import { OrganizationTypeOrmRepository } from "@/repositories/typerorm/organizat
 import { logger } from "@/utils/logger";
 import { GetByIdOrganizationUseCase } from ".";
 
-export const makeDeleteOrganization = () => {
+export const makeGetByIdOrganization = () => {
   const organizationRepository = new OrganizationTypeOrmRepository();
   const getByIdOrganizationUseCase = new GetByIdOrganizationUseCase(
     organizationRepository,
