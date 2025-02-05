@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - develop
+
 jobs:
   setup:
     name: Run Setup
@@ -33,15 +34,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # - name: Save node_modules as artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: node_modules
-      #     path: node_modules
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}    
+      - name: Upload node_modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
 
   lint:
     name: Run Linting
@@ -51,23 +48,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4              
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
         with:
+          name: node_modules
           path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
 
       - name: Run lint
         run: yarn lint
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
 
   run-tests:
     name: Run Unit Tests
@@ -77,33 +65,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
         with:
-          node-version: 20
-
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
+          name: node_modules
           path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-         
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
 
       - name: Run Tests
         run: yarn test
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
 
   build:
     name: Build the project
@@ -113,16 +82,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
 
       - name: Build the project
         run: yarn build
-
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
