@@ -40,6 +40,10 @@ jobs:
           name: node_modules
           path: node_modules
 
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
   lint:
     name: Run Linting
     runs-on: ubuntu-latest
@@ -53,6 +57,10 @@ jobs:
         with:
           name: node_modules
           path: node_modules
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
 
       - name: Run lint
         run: yarn lint
@@ -71,6 +79,10 @@ jobs:
           name: node_modules
           path: node_modules
 
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
       - name: Run Tests
         run: yarn test
 
@@ -88,5 +100,9 @@ jobs:
           name: node_modules
           path: node_modules
 
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+          
       - name: Build the project
         run: yarn build
