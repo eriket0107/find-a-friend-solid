@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
 
 export class PasswordHandler {
-  async hashPassword(password: string, salt: number): Promise<string> {
+  async hashPassword(password: string, salt: number = 6): Promise<string> {
     return await bcryptjs.hash(password, salt);
   }
 

@@ -57,7 +57,7 @@ export class CreateOrganizationUseCase {
       data,
     });
 
-    const passwordHash = await this.passwordHandler.hashPassword(password, 6);
+    const passwordHash = await this.passwordHandler.hashPassword(password);
 
     const organization = await this.repository.create({
       ...data,

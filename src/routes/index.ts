@@ -1,6 +1,6 @@
-import { app } from "@/app";
+import { FastifyInstance } from "fastify";
 import { organizationRoutes } from "./organization.route";
 
-export const routes = () => {
+export const routes = (app: FastifyInstance) => {
   app.register(organizationRoutes);
 };

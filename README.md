@@ -33,6 +33,9 @@ docker compose up --build
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
 - [X] It should be possible to register as an ORG
 - [ ] It should be possible to log in and log out as an ORG
+- [ ] It should be possible to edit the organization only if the organization is logged in
+- [ ] It should be possible to edit the pet only if the organization is logged in
+- [ ] It should not be possible delete a register, only deactivate it
 
 ## Business Rules
 

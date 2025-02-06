@@ -49,7 +49,7 @@ app
   })
   .withTypeProvider();
 
-routes();
+routes(app);
 
 app.setErrorHandler((error, _, reply) => {
   logger("app").error({

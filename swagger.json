@@ -83,6 +83,203 @@
           }
         }
       }
+    },
+    "/organization/{id}": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "description": "Get an organization by ID",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Organization id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password_hash": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "cnpj": {
+                      "type": "integer",
+                      "minimum": 10000000000000,
+                      "maximum": 99999999999999
+                    },
+                    "whatsapp": {
+                      "type": "integer"
+                    },
+                    "cep": {
+                      "type": "integer"
+                    },
+                    "city": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "state": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "street": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "country": {
+                      "type": "string",
+                      "maxLength": 255
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Organization"
+        ],
+        "description": "Update an organization by ID",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password_hash": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "name": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "cnpj": {
+                    "type": "integer",
+                    "minimum": 10000000000000,
+                    "maximum": 99999999999999
+                  },
+                  "whatsapp": {
+                    "type": "integer"
+                  },
+                  "cep": {
+                    "type": "integer"
+                  },
+                  "city": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "state": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "street": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "country": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Organization id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password_hash": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "cnpj": {
+                      "type": "integer",
+                      "minimum": 10000000000000,
+                      "maximum": 99999999999999
+                    },
+                    "whatsapp": {
+                      "type": "integer"
+                    },
+                    "cep": {
+                      "type": "integer"
+                    },
+                    "city": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "state": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "street": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "country": {
+                      "type": "string",
+                      "maxLength": 255
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

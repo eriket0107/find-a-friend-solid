@@ -16,3 +16,9 @@ export class ErrorOrganizationNotFound extends Error {
     super("Organization not found.");
   }
 }
+
+export class ErrorOrganizationPasswordIncorrect extends Error {
+  constructor() {
+    super("Invalid Credentials.");
+  }
+}

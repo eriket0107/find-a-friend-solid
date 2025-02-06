@@ -9,7 +9,7 @@ export interface IOrganizationRepository {
     data,
   }: {
     id: string;
-    data: Organization;
+    data: Partial<Organization>;
   }): Promise<Organization | null>;
   delete(id: string): void;
   getById(id: string): Promise<Organization | null>;
