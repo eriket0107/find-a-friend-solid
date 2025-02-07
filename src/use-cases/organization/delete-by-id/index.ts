@@ -10,7 +10,7 @@ export class DeleteOrganizationByIdUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({ id }: IDeleteOrganizationByIdUseCaseRequest): Promise<void> {
     this.logger("Organization").info({
