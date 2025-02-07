@@ -23,8 +23,6 @@ const updateOrganizationRequestSchemaBody = z.object({
   state: z.string().optional(),
   cep: z.number().optional(),
   country: z.string().optional(),
-  password: z.string().optional(),
-  newPassword: z.string().optional(),
 });
 
 const updateOrganizationUseCase = makeUpdateOrganization();

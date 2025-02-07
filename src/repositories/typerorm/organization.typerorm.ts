@@ -28,7 +28,7 @@ export class OrganizationTypeOrmRepository implements IOrganizationRepository {
     data,
   }: {
     id: string;
-    data: Organization;
+    data: Partial<Organization>;
   }): Promise<Organization | null> {
     const organizationToUpdate = await this.repository.findOne({
       where: { id },

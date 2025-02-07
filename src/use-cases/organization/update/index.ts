@@ -1,17 +1,12 @@
 import { IOrganizationRepository } from "@/repositories/organization.repository";
 import { LoggerType } from "@/utils/logger";
 import { Organization } from "database/entities/Organization";
-import {
-  ErrorOrganizationNotFound,
-  ErrorOrganizationPasswordIncorrect,
-} from "../errors";
+import { ErrorOrganizationNotFound } from "../errors";
 import { PasswordHandler } from "@/utils/password-pandler";
 
 interface UpdateOrganizationUseCaseRequest {
   id: string;
-  data: Partial<Organization>;
-  password?: string;
-  newPassword?: string;
+  data?: Partial<Organization>;
 }
 
 interface UpdateOrganizationUseCaseResponse {
@@ -28,8 +23,6 @@ export class UpdateOrganizationUseCase {
   async execute({
     id,
     data,
-    password,
-    newPassword,
   }: UpdateOrganizationUseCaseRequest): Promise<UpdateOrganizationUseCaseResponse> {
     this.logger("Organization").info({
       message: `Starting organization update`,
@@ -48,40 +41,17 @@ export class UpdateOrganizationUseCase {
       throw new ErrorOrganizationNotFound();
     }
 
-    if (password && newPassword) {
-      if (!existingOrganization.password_hash) {
-        this.logger("Organization").warn({
-          message: `Password update requested, but no existing password found`,
-          id,
-          folder: "Update UseCase",
-        });
-        throw new ErrorOrganizationPasswordIncorrect();
-      }
-
-      const isPasswordValid = await this.passwordHandler.comparePassword(
-        password,
-        existingOrganization.password_hash,
-      );
-
-      if (!isPasswordValid) {
-        this.logger("Organization").info({
-          message: `Incorrect password provided`,
-          id,
-          folder: "Update UseCase",
-        });
-        throw new ErrorOrganizationPasswordIncorrect();
-      }
-
-      data.password_hash = await this.passwordHandler.hashPassword(newPassword);
+    if (data && Object.keys(data).length > 0) {
+      await this.repository.update({ id, data });
     }
-
-    const updatedOrganization = await this.repository.update({ id, data });
 
     this.logger("Organization").info({
       message: `Organization successfully updated`,
       id,
       folder: "Update UseCase",
     });
+
+    const updatedOrganization = await this.repository.getById(id);
 
     return { updatedOrganization };
   }
