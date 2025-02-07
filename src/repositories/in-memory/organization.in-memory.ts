@@ -22,7 +22,7 @@ export class OrganizationInMemoryRepository implements IOrganizationRepository {
     return organization;
   }
 
-  async getByCnpj(cnpj: number): Promise<Organization | null> {
+  async getByCnpj(cnpj: string): Promise<Organization | null> {
     const organization =
       this.repository.find((data) => data.cnpj === cnpj) || null;
 

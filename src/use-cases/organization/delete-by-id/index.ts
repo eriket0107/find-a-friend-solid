@@ -2,23 +2,17 @@ import { IOrganizationRepository } from "@/repositories/organization.repository"
 import { LoggerType } from "@/utils/logger";
 import { ErrorOrganizationNotFound } from "../errors";
 
-interface IDeleteOrganizationeUseCaseRequest {
+interface IDeleteOrganizationByIdUseCaseRequest {
   id: string;
 }
 
-interface IDeleteOrganizationeUseCaseResponse {
-  message: string;
-}
-
-export class DeleteOrganizationeUseCase {
+export class DeleteOrganizationByIdUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) {}
+  ) { }
 
-  async execute({
-    id,
-  }: IDeleteOrganizationeUseCaseRequest): Promise<IDeleteOrganizationeUseCaseResponse> {
+  async execute({ id }: IDeleteOrganizationByIdUseCaseRequest): Promise<void> {
     this.logger("Organization").info({
       message: "Check if organization exists.",
       folder: "Delete UseCase",
@@ -48,9 +42,5 @@ export class DeleteOrganizationeUseCase {
       folder: "Delete UseCase",
       id,
     });
-
-    return {
-      message: "OK",
-    };
   }
 }

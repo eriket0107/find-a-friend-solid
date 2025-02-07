@@ -20,7 +20,10 @@ export const logger = (entity: string): BaseLogger => {
       targets: [
         {
           target: "pino-pretty",
-          options: { colorize: true },
+          options: {
+            colorize: true,
+            translateTime: "yyyy-mm-dd HH:MM:ss",
+          },
         },
         {
           target: "pino/file",

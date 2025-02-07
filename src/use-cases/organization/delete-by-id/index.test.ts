@@ -1,34 +1,32 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { GetByIdOrganizationUseCase } from ".";
-import { LoggerType } from "@/utils/logger";
-import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
+import { DeleteOrganizationByIdUseCase } from ".";
 import { Organization } from "database/entities/Organization";
+import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
 import { ErrorOrganizationNotFound } from "../errors";
 
-let sut: GetByIdOrganizationUseCase;
+let sut: DeleteOrganizationByIdUseCase;
 let organizationInMemoryRepository: OrganizationInMemoryRepository;
-
-const logger: LoggerType = vi.fn((level: string = "info") => ({
+const logger = vi.fn((level: string = "info") => ({
   level,
-  debug: vi.fn(),
-  error: vi.fn(),
-  fatal: vi.fn(),
   info: vi.fn(),
   warn: vi.fn(),
+  error: vi.fn(),
+  fatal: vi.fn(),
+  debug: vi.fn(),
   trace: vi.fn(),
   silent: vi.fn(),
 }));
 
-describe("GetByIdOrganizationUseCase", () => {
+describe("Delete Organization Use Case", () => {
   beforeEach(() => {
     organizationInMemoryRepository = new OrganizationInMemoryRepository();
-    sut = new GetByIdOrganizationUseCase(
+    sut = new DeleteOrganizationByIdUseCase(
       organizationInMemoryRepository,
       logger,
     );
   });
 
-  it("should retrieve an organization by ID", async () => {
+  it("should delete an organization", async () => {
     const data: Organization = {
       id: "org-123",
       name: "Test Org",
@@ -44,15 +42,15 @@ describe("GetByIdOrganizationUseCase", () => {
 
     organizationInMemoryRepository.create(data);
 
-    const { organization } = await sut.execute({ id: "org-123" });
+    await sut.execute({ id: "org-123" });
 
-    expect(organization).toBeDefined();
-    expect(organization.id).toBe("org-123");
-    expect(organization.name).toBe("Test Org");
+    const organization =
+      await organizationInMemoryRepository.getById("org-123");
+    expect(organization).toBeNull();
   });
 
-  it("should throw an error if the organization does not exist", async () => {
-    await expect(sut.execute({ id: "non-existing-id" })).rejects.toBeInstanceOf(
+  it("should not delete an organization that does not exist", async () => {
+    await expect(sut.execute({ id: "org-123" })).rejects.toBeInstanceOf(
       ErrorOrganizationNotFound,
     );
   });

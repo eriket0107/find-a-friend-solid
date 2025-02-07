@@ -20,14 +20,14 @@ export class Organization {
   @Column({ type: "varchar", length: 255 })
   name!: string;
 
-  @Column({ type: "bigint" })
-  cnpj!: number;
+  @Column({ type: "varchar", length: 255 })
+  cnpj!: string;
 
-  @Column({ type: "bigint" })
-  whatsapp!: number;
+  @Column({ type: "varchar", length: 255 })
+  whatsapp!: string;
 
-  @Column({ type: "bigint" })
-  cep!: number;
+  @Column({ type: "varchar", length: 255 })
+  cep!: string;
 
   @Column({ type: "varchar", length: 255 })
   city!: string;

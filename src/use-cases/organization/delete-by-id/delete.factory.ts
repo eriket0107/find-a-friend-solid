@@ -1,10 +1,10 @@
 import { OrganizationTypeOrmRepository } from "@/repositories/typerorm/organization.typerorm";
 import { logger } from "@/utils/logger";
-import { DeleteOrganizationeUseCase } from ".";
+import { DeleteOrganizationByIdUseCase } from ".";
 
-export const makeDeleteOrganization = () => {
+export const makeDeleteOrganizationById = () => {
   const organizationRepository = new OrganizationTypeOrmRepository();
-  const deleteOrganizationUseCase = new DeleteOrganizationeUseCase(
+  const deleteOrganizationUseCase = new DeleteOrganizationByIdUseCase(
     organizationRepository,
     logger,
   );

@@ -36,12 +36,12 @@ describe("Update Organization Use Case", () => {
       id: "1",
       name: "Teste Org",
       email: "org@gmail.com",
-      cnpj: 46367217000135,
-      whatsapp: 21999999999,
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
       street: "Av Alfredo Balthazar da silveira",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
-      cep: 22790710,
+      cep: "22790710",
       country: "BRA",
     };
 
@@ -50,12 +50,12 @@ describe("Update Organization Use Case", () => {
     const organizationToUpdate: Organization = {
       name: "Tech Innovators Ltd.",
       email: "contact@techinnovators.com",
-      cnpj: 12345678000190,
-      whatsapp: 21988888888,
+      cnpj: "12345678000190",
+      whatsapp: "21988888888",
       street: "Rua das Palmeiras, 123",
       city: "São Paulo",
       state: "São Paulo",
-      cep: 12345678,
+      cep: "12345678",
       country: "BRA",
     };
 
@@ -66,12 +66,12 @@ describe("Update Organization Use Case", () => {
 
     expect(updatedOrganization?.name).toBe("Tech Innovators Ltd.");
     expect(updatedOrganization?.email).toBe("contact@techinnovators.com");
-    expect(updatedOrganization?.cnpj).toBe(12345678000190);
-    expect(updatedOrganization?.whatsapp).toBe(21988888888);
+    expect(updatedOrganization?.cnpj).toBe("12345678000190");
+    expect(updatedOrganization?.whatsapp).toBe("21988888888");
     expect(updatedOrganization?.street).toBe("Rua das Palmeiras, 123");
     expect(updatedOrganization?.city).toBe("São Paulo");
     expect(updatedOrganization?.state).toBe("São Paulo");
-    expect(updatedOrganization?.cep).toBe(12345678);
+    expect(updatedOrganization?.cep).toBe("12345678");
     expect(updatedOrganization?.country).toBe("BRA");
   });
 
@@ -89,19 +89,19 @@ describe("Update Organization Use Case", () => {
       id: "1",
       name: "Teste Org",
       email: "org@gmail.com",
-      cnpj: 46367217000135,
-      whatsapp: 21999999999,
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
       street: "Av Alfredo Balthazar da silveira",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
-      cep: 22790710,
+      cep: "22790710",
       country: "BRA",
     };
 
     repository.create(organization);
     const organizationToUpdate: Partial<Organization> = {
       email: "teste@gmail.com",
-      whatsapp: 21999999998,
+      whatsapp: "21999999998",
       street: "Teste",
     };
 
@@ -111,16 +111,16 @@ describe("Update Organization Use Case", () => {
     });
 
     expect(updatedOrganization?.email).toBe("teste@gmail.com");
-    expect(updatedOrganization?.whatsapp).toBe(21999999998);
+    expect(updatedOrganization?.whatsapp).toBe("21999999998");
     expect(updatedOrganization?.street).toBe("Teste");
     expect(updatedOrganization?.name).toBe("Teste Org");
     expect(updatedOrganization?.email).toBe("teste@gmail.com");
-    expect(updatedOrganization?.cnpj).toBe(46367217000135);
-    expect(updatedOrganization?.whatsapp).toBe(21999999998);
+    expect(updatedOrganization?.cnpj).toBe("46367217000135");
+    expect(updatedOrganization?.whatsapp).toBe("21999999998");
     expect(updatedOrganization?.street).toBe("Teste");
     expect(updatedOrganization?.city).toBe("Rio de Janeiro");
     expect(updatedOrganization?.state).toBe("Rio de Janeiro");
-    expect(updatedOrganization?.cep).toBe(22790710);
+    expect(updatedOrganization?.cep).toBe("22790710");
     expect(updatedOrganization?.country).toBe("BRA");
   });
 });

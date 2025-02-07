@@ -13,9 +13,10 @@
     "test": "vitest run --dir src",
     "test:watch": "vitest --dir src",
     "test:coverage": "vitest --coverage",
-    "typeorm": "typeorm-ts-node-commonjs -d database/data-source",
+    "typeorm": "tsx node_modules/typeorm/cli.js -d database/data-source",
     "migration:generate": "yarn typeorm migration:generate",
     "migration:run": "yarn typeorm migration:run",
+    "seed:organizations": "tsx scripts/seed-organization.ts",
     "lint": "eslint --fix --ignore-pattern 'dist/*'",
     "lint:ci": "yarn eslint --fix --ignore-pattern 'dist/*'",
     "prepare": "husky"
@@ -24,6 +25,7 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "9.19.0",
+    "@faker-js/faker": "9.4.0",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "22.13.0",
     "eslint": "9.19.0",

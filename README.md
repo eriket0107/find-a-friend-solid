@@ -25,17 +25,17 @@ docker compose up --build
 
 ## Application Rules
 
-- [ ] It should be possible to register a pet
-- [ ] It should be possible to update a specific pet register
+- [ ] It should be possible to CRUD a pet
 - [ ] It should be possible to list all pets available for adoption in a Organization
 - [ ] It should be possible to list all pets available for adoption in a City
 - [ ] It should be possible to filter pets by their characteristics
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
-- [X] It should be possible to register as an ORG
+- [X] It should be possible to CRUD an ORG
 - [ ] It should be possible to log in and log out as an ORG
 - [ ] It should be possible to edit the organization only if the organization is logged in
 - [ ] It should be possible to edit the pet only if the organization is logged in
 - [ ] It should not be possible delete a register, only deactivate it
+- [ ] It should be possible to processs Pet photo to webp through RBMQ system
 
 ## Business Rules
 

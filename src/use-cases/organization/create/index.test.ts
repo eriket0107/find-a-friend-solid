@@ -39,12 +39,12 @@ describe("Organization Creation Use Case", () => {
     const data: Organization = {
       name: "Teste Org",
       email: "org@gmail.com",
-      cnpj: 46367217000135,
-      whatsapp: 21999999999,
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
       street: "Av Alfredo Balthazar da silveira",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
-      cep: 22790710,
+      cep: "22790710",
       country: "BRA",
     };
 
@@ -61,12 +61,12 @@ describe("Organization Creation Use Case", () => {
     const data: Organization = {
       name: "Teste Org",
       email: "org@gmail.com",
-      cnpj: 46367217000135,
-      whatsapp: 21999999999,
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
       street: "Av Alfredo Balthazar da silveira",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
-      cep: 22790710,
+      cep: "22790710",
       country: "BRA",
     };
 
@@ -87,12 +87,12 @@ describe("Organization Creation Use Case", () => {
     const data: Organization = {
       name: "Teste Org",
       email: "org@gmail.com",
-      cnpj: 46367217000135,
-      whatsapp: 21999999999,
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
       street: "Av Alfredo Balthazar da silveira",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
-      cep: 22790710,
+      cep: "22790710",
       country: "BRA",
     };
 

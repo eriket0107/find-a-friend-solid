@@ -3,7 +3,7 @@ import { Organization } from "database/entities/Organization";
 export interface IOrganizationRepository {
   create(data: Organization): Promise<Organization>;
   getByEmail(email: string): Promise<Organization | null>;
-  getByCnpj(cnpj: number): Promise<Organization | null>;
+  getByCnpj(cnpj: string): Promise<Organization | null>;
   update({
     id,
     data,
