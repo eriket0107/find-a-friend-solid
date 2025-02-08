@@ -2,7 +2,7 @@
 node_modules/
 .yarn/
 .yarn-cache/
-yarn.lock
+# yarn.lock
 package-lock.json
 
 # Environment variables

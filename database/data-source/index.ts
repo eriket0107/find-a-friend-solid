@@ -1,13 +1,13 @@
-import { env } from '../../src/env';
-import path from 'node:path';
+import { env } from "../../src/env";
+import path from "node:path";
 
-import { DataSource } from 'typeorm';
+import { DataSource } from "typeorm";
 
-const entitiesPath = path.resolve('database', 'entities', '*.ts');
-const migrationsPath = path.resolve('database', 'migrations', '*.ts');
+const entitiesPath = path.resolve("database", "entities", "*.ts");
+const migrationsPath = path.resolve("database", "migrations", "*.ts");
 
 export const dataSource = new DataSource({
-  type: 'postgres',
+  type: "postgres",
   synchronize: false,
   logging: true,
   entities: [entitiesPath],
