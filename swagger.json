@@ -34,15 +34,13 @@
                     "maxLength": 255
                   },
                   "cnpj": {
-                    "type": "integer",
-                    "minimum": 10000000000000,
-                    "maximum": 99999999999999
+                    "type": "string"
                   },
                   "whatsapp": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "cep": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "city": {
                     "type": "string",
@@ -122,15 +120,13 @@
                       "maxLength": 255
                     },
                     "cnpj": {
-                      "type": "integer",
-                      "minimum": 10000000000000,
-                      "maximum": 99999999999999
+                      "type": "string"
                     },
                     "whatsapp": {
-                      "type": "integer"
+                      "type": "string"
                     },
                     "cep": {
-                      "type": "integer"
+                      "type": "string"
                     },
                     "city": {
                       "type": "string",
@@ -178,15 +174,13 @@
                     "maxLength": 255
                   },
                   "cnpj": {
-                    "type": "integer",
-                    "minimum": 10000000000000,
-                    "maximum": 99999999999999
+                    "type": "string"
                   },
                   "whatsapp": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "cep": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "city": {
                     "type": "string",
@@ -247,15 +241,13 @@
                       "maxLength": 255
                     },
                     "cnpj": {
-                      "type": "integer",
-                      "minimum": 10000000000000,
-                      "maximum": 99999999999999
+                      "type": "string"
                     },
                     "whatsapp": {
-                      "type": "integer"
+                      "type": "string"
                     },
                     "cep": {
-                      "type": "integer"
+                      "type": "string"
                     },
                     "city": {
                       "type": "string",
@@ -303,15 +295,13 @@
                     "maxLength": 255
                   },
                   "cnpj": {
-                    "type": "integer",
-                    "minimum": 10000000000000,
-                    "maximum": 99999999999999
+                    "type": "string"
                   },
                   "whatsapp": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "cep": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "city": {
                     "type": "string",
@@ -357,6 +347,181 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organization/list": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "description": "Retrieve a list of organizations with optional filters, pagination, and sorting.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "where",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "additionalProperties": {
+                "type": "object",
+                "enum": [
+                  "ASC",
+                  "DESC"
+                ]
+              }
+            },
+            "in": "query",
+            "name": "order",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "in": "query",
+            "name": "take",
+            "required": false,
+            "description": "Number of records to return"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "description": "Number of records to skip for pagination"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "filter",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "password_hash": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "cnpj": {
+                        "type": "string"
+                      },
+                      "whatsapp": {
+                        "type": "string"
+                      },
+                      "cep": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Invalid query parameters",
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Internal server error",
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
               }
             }
           }

@@ -11,17 +11,17 @@ const updateOrganizationRequestSchemaBody = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
   cnpj: z
-    .number()
+    .string()
     .min(14, { message: "must have cnpj correct length" })
     .optional(),
   whatsapp: z
-    .number()
+    .string()
     .min(11, { message: "must have whatsapp correct length" })
     .optional(),
   street: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
-  cep: z.number().optional(),
+  cep: z.string().optional(),
   country: z.string().optional(),
 });
 

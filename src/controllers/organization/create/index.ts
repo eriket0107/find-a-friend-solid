@@ -8,14 +8,14 @@ const createOrganizationRequestSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
-  cnpj: z.number().min(14, { message: "must have cnpj correct length" }),
+  cnpj: z.string().min(14, { message: "must have cnpj correct length" }),
   whatsapp: z
-    .number()
+    .string()
     .min(11, { message: "must have whatsapp correct length" }),
   street: z.string(),
   city: z.string(),
   state: z.string(),
-  cep: z.number(),
+  cep: z.string(),
   country: z.string(),
 });
 

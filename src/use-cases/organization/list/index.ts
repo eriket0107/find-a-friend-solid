@@ -18,7 +18,7 @@ export class ListOrganizationUseCase {
   constructor(
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) {}
+  ) { }
 
   async execute(
     params: IListOrganizationsRequest,

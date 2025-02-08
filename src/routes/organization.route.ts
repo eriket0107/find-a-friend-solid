@@ -1,6 +1,7 @@
 import { create } from "@/controllers/organization/create";
 import { deleteById } from "@/controllers/organization/delete";
 import { getById } from "@/controllers/organization/get-by-id";
+import { list } from "@/controllers/organization/list";
 import { update } from "@/controllers/organization/update";
 import { FastifyInstance } from "fastify";
 
@@ -10,9 +11,9 @@ const organizationSchema = {
     email: { type: "string", format: "email" },
     password_hash: { type: "string", nullable: true },
     name: { type: "string", maxLength: 255 },
-    cnpj: { type: "integer", minimum: 10000000000000, maximum: 99999999999999 },
-    whatsapp: { type: "integer" },
-    cep: { type: "integer" },
+    cnpj: { type: "string" },
+    whatsapp: { type: "string" },
+    cep: { type: "string" },
     city: { type: "string", maxLength: 255 },
     state: { type: "string", maxLength: 255 },
     street: { type: "string", maxLength: 255 },
@@ -88,12 +89,10 @@ export const organizationRoutes = async (app: FastifyInstance) => {
             password_hash: { type: "string", nullable: true },
             name: { type: "string", maxLength: 255 },
             cnpj: {
-              type: "integer",
-              minimum: 10000000000000,
-              maximum: 99999999999999,
+              type: "string",
             },
-            whatsapp: { type: "integer" },
-            cep: { type: "integer" },
+            whatsapp: { type: "string" },
+            cep: { type: "string" },
             city: { type: "string", maxLength: 255 },
             state: { type: "string", maxLength: 255 },
             street: { type: "string", maxLength: 255 },
@@ -132,12 +131,10 @@ export const organizationRoutes = async (app: FastifyInstance) => {
             password_hash: { type: "string", nullable: true },
             name: { type: "string", maxLength: 255 },
             cnpj: {
-              type: "integer",
-              minimum: 10000000000000,
-              maximum: 99999999999999,
+              type: "string",
             },
-            whatsapp: { type: "integer" },
-            cep: { type: "integer" },
+            whatsapp: { type: "string" },
+            cep: { type: "string" },
             city: { type: "string", maxLength: 255 },
             state: { type: "string", maxLength: 255 },
             street: { type: "string", maxLength: 255 },
@@ -152,5 +149,86 @@ export const organizationRoutes = async (app: FastifyInstance) => {
       },
     },
     deleteById,
+  );
+
+  app.get(
+    "/organization/list",
+    {
+      schema: {
+        description:
+          "Retrieve a list of organizations with optional filters, pagination, and sorting.",
+        tags: ["Organization"],
+        querystring: {
+          type: "object",
+          properties: {
+            where: {
+              type: "string",
+              additionalProperties: { type: "string" },
+            },
+            order: {
+              type: "string",
+              additionalProperties: { type: "object", enum: ["ASC", "DESC"] },
+            },
+            take: {
+              type: "integer",
+              minimum: 1,
+              description: "Number of records to return",
+            },
+            skip: {
+              type: "integer",
+              minimum: 0,
+              description: "Number of records to skip for pagination",
+            },
+            filter: {
+              type: "string",
+              additionalProperties: { type: "string" },
+            },
+          },
+          additionalProperties: false,
+        },
+        response: {
+          200: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                id: { type: "string", format: "uuid" },
+                email: { type: "string", format: "email" },
+                password_hash: { type: "string" },
+                name: { type: "string" },
+                cnpj: { type: "string" },
+                whatsapp: { type: "string" },
+                cep: { type: "string" },
+                city: { type: "string" },
+                state: { type: "string" },
+                street: { type: "string" },
+                country: { type: "string" },
+                created_at: { type: "string", format: "date-time" },
+                updated_at: { type: "string", format: "date-time" },
+              },
+            },
+          },
+          400: {
+            description: "Invalid query parameters",
+            type: "object",
+            properties: {
+              statusCode: { type: "integer", example: 400 },
+              error: { type: "string", example: "Bad Request" },
+              message: { type: "string" },
+            },
+          },
+          500: {
+            description: "Internal server error",
+            type: "object",
+            properties: {
+              statusCode: { type: "integer", example: 500 },
+              error: { type: "string", example: "Internal Server Error" },
+              message: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+    list,
   );
 };
