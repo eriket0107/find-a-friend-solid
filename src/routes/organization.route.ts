@@ -1,3 +1,4 @@
+import { changePassword } from "@/controllers/organization/change-password";
 import { create } from "@/controllers/organization/create";
 import { deleteById } from "@/controllers/organization/delete";
 import { getById } from "@/controllers/organization/get-by-id";
@@ -230,5 +231,35 @@ export const organizationRoutes = async (app: FastifyInstance) => {
       },
     },
     list,
+  );
+
+  app.patch(
+    "/organization/change-password/:id",
+    {
+      schema: {
+        description: "Update an organization by ID",
+        tags: ["Organization"],
+        params: {
+          type: "object",
+          properties: {
+            id: { type: "string", description: "Organization id" },
+          },
+          required: ["id"],
+        },
+        body: {
+          properties: {
+            password: { type: "string" },
+            newPassword: { type: "string" },
+          },
+        },
+        response: {
+          200: {
+            type: "object",
+            properties: organizationSchema.properties,
+          },
+        },
+      },
+    },
+    changePassword,
   );
 };
