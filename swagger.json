@@ -527,6 +527,92 @@
           }
         }
       }
+    },
+    "/organization/change-password/{id}": {
+      "patch": {
+        "tags": [
+          "Organization"
+        ],
+        "description": "Update an organization by ID",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Organization id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password_hash": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "cnpj": {
+                      "type": "string"
+                    },
+                    "whatsapp": {
+                      "type": "string"
+                    },
+                    "cep": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "state": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "street": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "country": {
+                      "type": "string",
+                      "maxLength": 255
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
