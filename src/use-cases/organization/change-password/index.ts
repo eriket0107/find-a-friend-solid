@@ -1,4 +1,3 @@
-import { OrganizationTypeOrmRepository } from "@/repositories/typerorm/organization.typerorm";
 import {
   ErrorOrganizationNotFound,
   ErrorOrganizationPasswordIncorrect,
@@ -6,6 +5,7 @@ import {
 import { LoggerType } from "@/utils/logger";
 import { PasswordHandler } from "@/utils/password-pandler";
 import { Organization } from "database/entities/Organization";
+import { IOrganizationRepository } from "@/repositories/organization.repository";
 
 interface ChangePasswordOrganizationUseCaseRequest {
   id: string;
@@ -19,7 +19,7 @@ interface ChangePasswordOrganizationUseCaseResponse {
 
 export class ChangePasswordOrganizationUseCase {
   constructor(
-    private readonly repository: OrganizationTypeOrmRepository,
+    private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
     private readonly passwordHandler: PasswordHandler,
   ) {}
