@@ -28,7 +28,7 @@ export class Pet {
   @Column({ type: "varchar", length: 255 })
   breed!: string;
 
-  @Column("varchar")
+  @Column("varchar", { array: true })
   traits!: string[];
 
   @CreateDateColumn({ name: "created_at" })

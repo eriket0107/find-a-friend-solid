@@ -25,15 +25,13 @@ export const changePassword = async (
     const { newPassword, password } =
       changePasswordOrganizationRequestSchemaBody.parse(request.body);
 
-    const { updatedPassword } = await changePasswordOrganizationUseCase.execute(
-      {
-        id,
-        newPassword,
-        password,
-      },
-    );
+    await changePasswordOrganizationUseCase.execute({
+      id,
+      newPassword,
+      password,
+    });
 
-    return reply.status(200).send(updatedPassword);
+    return reply.status(200).send({ message: "ok" });
   } catch (error) {
     errorHandler({
       error,
