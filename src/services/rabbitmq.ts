@@ -1,11 +1,15 @@
+import { RabbitMQHandlers } from "@/config/rabbitmq.handlers";
 import amqp, { Connection, Channel, ConsumeMessage } from "amqplib";
 
 const RABBITMQ_URL =
   process.env.RABBITMQ_URL || "amqp://admin:admin@localhost:5672";
 
 export class RabbitMQ {
-  private connection: Connection | null = null;
-  private channel: Channel | null = null;
+  constructor(
+    private connection: Connection | null = null,
+    private channel: Channel | null = null,
+    private handlers: RabbitMQHandlers[],
+  ) { }
 
   private async connect(): Promise<Channel> {
     if (!this.connection) {
@@ -39,5 +43,27 @@ export class RabbitMQ {
     });
 
     console.log(`🎧 Listening for messages on "${queue}"`);
+  }
+  async close(): Promise<void> {
+    if (this.channel) {
+      await this.channel.close();
+      console.log("❌ Channel closed");
+    }
+
+    if (this.connection) {
+      await this.connection.close();
+      console.log("❌ Connection closed");
+    }
+  }
+
+  async startListening(): Promise<void> {
+    for (const { queue, handler } of this.handlers) {
+      await this.consume(queue, (message: unknown) => {
+        console.log(`Received message from queue "${queue}":`, message);
+        handler(message as string);
+      });
+
+      console.log(`🎧 Listening for messages on "${queue}"`);
+    }
   }
 }
