@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   postgres:
     image: postgres:16
@@ -16,8 +18,26 @@ services:
     networks:
       - fastify_network
 
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: find_a_friend_rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"   
+      - "15672:15672" 
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+    env_file:
+      - .env
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - fastify_network
+
 volumes:
   postgres_data:
+  rabbitmq_data:
 
 networks:
   fastify_network:
