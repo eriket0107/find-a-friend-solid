@@ -19,8 +19,14 @@ export class Pet {
   @Column({ type: "varchar", length: 255 })
   description!: string;
 
+  @Column({ type: "varchar", length: 255, enum: ["M", "F"] })
+  gender!: string;
+
   @Column({ type: "varchar", length: 255 })
-  image_url!: string;
+  profilePhoto!: string;
+
+  @Column({ type: "varchar", length: 255, array: true })
+  photos?: string;
 
   @Column({ type: "int" })
   age!: string;
@@ -38,5 +44,5 @@ export class Pet {
   updated_at?: Date;
 
   @ManyToOne(() => Organization, (organization) => organization.id)
-  org_id!: string;
+  organizationId!: string;
 }
