@@ -6,6 +6,7 @@ import {
   ErrorOrganizationAlreadyExists,
   ErrorOrganizationCnpjAlreadyExits,
 } from "../errors";
+import { RabbitMQ } from "@/services/rabbitmq";
 
 interface ICreateOrganizationUseCaseRequest {
   data: Organization;
@@ -21,7 +22,8 @@ export class CreateOrganizationUseCase {
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
     private readonly passwordHandler: PasswordHandler,
-  ) {}
+    private readonly amqp: RabbitMQ,
+  ) { }
 
   async execute({
     data,
@@ -69,6 +71,8 @@ export class CreateOrganizationUseCase {
       folder: "Create UseCase",
       data,
     });
+
+    await this.amqp.publish("teste2", JSON.stringify(data));
 
     return { organization };
   }

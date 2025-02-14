@@ -8,6 +8,10 @@ import { ZodError } from "zod";
 import { env } from "./env";
 import { logger } from "./utils/logger";
 import { routes } from "./routes";
+import { RabbitMQ } from "./services/rabbitmq";
+import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
+
+const rabbitMQ = new RabbitMQ();
 
 export const app = Fastify({
   logger: {
@@ -48,6 +52,8 @@ app
     routePrefix: "/docs",
   })
   .withTypeProvider();
+
+await rabbitMQ.startListening(rabbitMQHandlers);
 
 routes(app);
 

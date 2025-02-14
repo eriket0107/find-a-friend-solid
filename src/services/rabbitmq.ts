@@ -5,11 +5,8 @@ const RABBITMQ_URL =
   process.env.RABBITMQ_URL || "amqp://admin:admin@localhost:5672";
 
 export class RabbitMQ {
-  constructor(
-    private connection: Connection | null = null,
-    private channel: Channel | null = null,
-    private handlers: RabbitMQHandlers[],
-  ) { }
+  private connection: Connection | null = null;
+  private channel: Channel | null = null;
 
   private async connect(): Promise<Channel> {
     if (!this.connection) {
@@ -56,11 +53,15 @@ export class RabbitMQ {
     }
   }
 
-  async startListening(): Promise<void> {
-    for (const { queue, handler } of this.handlers) {
+  async startListening(handlers: RabbitMQHandlers[]): Promise<void> {
+    console.log("🎧 Starting to listen for messages...");
+    for (const { queue, handler } of handlers) {
       await this.consume(queue, (message: unknown) => {
         console.log(`Received message from queue "${queue}":`, message);
-        handler(message as string);
+        handler(message);
+        setTimeout(async () => {
+          await this.close();
+        }, 5000);
       });
 
       console.log(`🎧 Listening for messages on "${queue}"`);
