@@ -11,7 +11,7 @@ import { Organization } from "./Organization";
 @Entity()
 export class Pet {
   @PrimaryGeneratedColumn()
-  id!: string;
+  id?: string;
 
   @Column({ type: "varchar", length: 255 })
   name!: string;
@@ -26,7 +26,7 @@ export class Pet {
   profilePhoto!: string;
 
   @Column({ type: "varchar", length: 255, array: true })
-  photos?: string;
+  photos?: string[];
 
   @Column({ type: "int" })
   age!: string;
