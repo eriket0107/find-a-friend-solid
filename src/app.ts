@@ -10,6 +10,7 @@ import { logger } from "./utils/logger";
 import { routes } from "./routes";
 import { RabbitMQ } from "./services/rabbitmq";
 import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
+import fastifyMultipart from "@fastify/multipart";
 
 const rabbitMQ = new RabbitMQ();
 
@@ -34,6 +35,10 @@ export const app = Fastify({
 app.register(cors, {
   credentials: true,
   origin: true,
+});
+
+app.register(fastifyMultipart, {
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max file size
 });
 
 app.register(fastifySwagger, {
@@ -75,7 +80,7 @@ app.setErrorHandler((error, _, reply) => {
   }
 
   logger("app").error({
-    message: error.message,
+    message: `Error message from APP: ${error.message}`,
     line: "71",
   });
   return reply.status(500).send({ message: "Internal server error" });

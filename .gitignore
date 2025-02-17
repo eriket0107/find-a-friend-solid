@@ -22,3 +22,6 @@ postgres_data/
 # Build outputs
 dist/
 out/
+
+#Uploads
+/uploads/*

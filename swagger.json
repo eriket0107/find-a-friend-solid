@@ -613,6 +613,15 @@
           }
         }
       }
+    },
+    "/pet": {
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
     }
   }
 }
