@@ -8,6 +8,7 @@ import {
   ErrorOrganizationAlreadyExists,
   ErrorOrganizationCnpjAlreadyExits,
 } from "../errors";
+import { RabbitMQ } from "@/services/rabbitmq";
 
 let sut: CreateOrganizationUseCase;
 let organizationInMemoryRepository: OrganizationInMemoryRepository;
@@ -24,6 +25,16 @@ const logger: LoggerType = vi.fn((level: string = "info") => ({
   silent: vi.fn(),
 }));
 
+const mockRabbitMQ = vi.mocked({
+  connection: vi.fn(),
+  channel: vi.fn(),
+  connect: vi.fn(),
+  publish: vi.fn(),
+  consume: vi.fn(),
+  close: vi.fn(),
+  startListening: vi.fn(),
+}) as unknown as RabbitMQ;
+
 describe("Organization Creation Use Case", () => {
   beforeEach(() => {
     organizationInMemoryRepository = new OrganizationInMemoryRepository();
@@ -32,6 +43,7 @@ describe("Organization Creation Use Case", () => {
       organizationInMemoryRepository,
       logger,
       passwordHandler,
+      mockRabbitMQ,
     );
   });
 
