@@ -23,7 +23,7 @@ export class CreateOrganizationUseCase {
     private readonly logger: LoggerType,
     private readonly passwordHandler: PasswordHandler,
     private readonly amqp: RabbitMQ,
-  ) { }
+  ) {}
 
   async execute({
     data,

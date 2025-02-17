@@ -53,7 +53,7 @@ app
   })
   .withTypeProvider();
 
-await rabbitMQ.startListening(rabbitMQHandlers);
+rabbitMQ.startListening(rabbitMQHandlers);
 
 routes(app);
 
