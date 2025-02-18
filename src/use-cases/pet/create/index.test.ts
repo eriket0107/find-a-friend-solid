@@ -6,6 +6,7 @@ import { LoggerType } from "@/utils/logger";
 import { Pet } from "database/entities/Pet";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
+import { RabbitMQ } from "@/services/rabbitmq";
 
 let sut: CreatePetUseCase;
 let petRepository: PetInMemoryRepository;
@@ -23,6 +24,16 @@ const logger: LoggerType = vi.fn((level: string = "info") => ({
   silent: vi.fn(),
 }));
 
+const mockRabbitMQ = vi.mocked({
+  connection: vi.fn(),
+  channel: vi.fn(),
+  connect: vi.fn(),
+  publish: vi.fn(),
+  consume: vi.fn(),
+  close: vi.fn(),
+  startListening: vi.fn(),
+}) as unknown as RabbitMQ;
+
 describe("Create Pet Use Case", () => {
   beforeEach(() => {
     petRepository = new PetInMemoryRepository();
@@ -34,6 +45,7 @@ describe("Create Pet Use Case", () => {
     sut = new CreatePetUseCase(
       petRepository,
       getByIdOrganizationUseCase,
+      mockRabbitMQ,
       logger,
     );
   });
@@ -65,11 +77,10 @@ describe("Create Pet Use Case", () => {
       ],
       description: "Cute and friendly",
       traits: ["Friendly", "Playful"],
-      organizationId: "valid-org-id",
+      organization: "valid-org-id",
     };
 
     const { petCreated } = await sut.execute({
-      organizationId: "valid-org-id",
       pet: petData,
     });
 
@@ -91,12 +102,12 @@ describe("Create Pet Use Case", () => {
       ],
       description: "Cute and friendly",
       traits: ["Friendly", "Playful"],
-      organizationId: "invalid-org-id",
+      organization: "invalid-org-id",
     };
 
-    await expect(
-      sut.execute({ organizationId: "invalid-org-id", pet: petData }),
-    ).rejects.toBeInstanceOf(ErrorOrganizationNotFound);
+    await expect(sut.execute({ pet: petData })).rejects.toBeInstanceOf(
+      ErrorOrganizationNotFound,
+    );
   });
 
   // it.skip("should not create a pet if required fields are missing", async () => {

@@ -10,7 +10,7 @@ import { Organization } from "./Organization";
 
 @Entity()
 export class Pet {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id?: string;
 
   @Column({ type: "varchar", length: 255 })
@@ -22,10 +22,10 @@ export class Pet {
   @Column({ type: "varchar", length: 255, enum: ["M", "F"] })
   gender!: string;
 
-  @Column({ type: "varchar", length: 255 })
-  profilePhoto!: string;
+  @Column({ type: "varchar", length: 255, nullable: true })
+  profilePhoto?: string;
 
-  @Column({ type: "varchar", length: 255, array: true })
+  @Column({ type: "varchar", length: 255, array: true, nullable: true })
   photos?: string[];
 
   @Column({ type: "int" })
@@ -44,5 +44,5 @@ export class Pet {
   updated_at?: Date;
 
   @ManyToOne(() => Organization, (organization) => organization.id)
-  organizationId!: string;
+  organization!: string;
 }

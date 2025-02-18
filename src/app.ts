@@ -38,7 +38,7 @@ app.register(cors, {
 });
 
 app.register(fastifyMultipart, {
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max file size
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB max file size
 });
 
 app.register(fastifySwagger, {

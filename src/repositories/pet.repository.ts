@@ -2,7 +2,7 @@ import { Pet } from "database/entities/Pet";
 
 export interface IPetRepository {
   getById(id: string): Promise<Pet | null>;
-  create(data: Pet): Promise<Omit<Pet, "profilePhoto" | "photos">>;
+  create(data: Pet): Promise<Pet>;
   update({ id, data }: { id: string; data: Partial<Pet> }): Promise<Pet | null>;
   delete(id: string): Promise<void>;
   listByOrganization(organizationId: string): Promise<Pet[]>;

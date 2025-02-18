@@ -1,27 +1,44 @@
-import { FileStorage } from "@/utils/filer-storage";
-import { logger } from "@/utils/logger";
-import { SavedMultipartFile } from "@fastify/multipart";
+import { makeUploadPetPhotoUseCase } from "@/use-cases/pet/upload-photo/upload-photo.factory";
+import { errorHandler } from "@/utils/error-handler";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
+
+const schemaParams = z.object({
+  id: z.string(),
+});
+
+const schemaQuery = z.object({
+  isProfilePhoto: z.coerce.boolean().default(false),
+});
+
+const updatePhotoUseCase = makeUploadPetPhotoUseCase();
 
 export const photoUpload = async (
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
   try {
-    const fileStorage = new FileStorage(logger);
+    const { id } = schemaParams.parse(request.params);
+    const { isProfilePhoto } = schemaQuery.parse(request.query);
 
-    const file = await request.saveRequestFiles();
+    const files = request.files();
 
-    const { photoPath } = await fileStorage.uploadFile({
-      file: file[0] as unknown as SavedMultipartFile,
-      id: "123",
-      isProfilePhoto: false,
+    const photos: string[] = [];
+
+    await updatePhotoUseCase.execute({
+      petId: id,
+      files,
+      isProfilePhoto,
     });
 
-    const updatedPhoto = await fileStorage.readFile(photoPath);
-
-    return reply.status(200).type("image/png").send(updatedPhoto);
+    return reply.status(200).send({ photos });
   } catch (error) {
-    console.error("=======================================", error);
+    errorHandler({
+      error,
+      reply,
+      code: 400,
+      folder: "Controller",
+      entity: "Pet",
+    });
   }
 };

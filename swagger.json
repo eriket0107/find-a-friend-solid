@@ -615,7 +615,161 @@
       }
     },
     "/pet": {
+      "post": {
+        "tags": [
+          "Pet"
+        ],
+        "description": "Creates a Pet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "M",
+                      "F"
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "type": "string"
+                  },
+                  "breed": {
+                    "type": "string"
+                  },
+                  "traits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "profilePhoto": {
+                    "type": "string"
+                  },
+                  "photos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "age",
+                  "gender",
+                  "description",
+                  "organizationId",
+                  "breed",
+                  "traits"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "M",
+                        "F"
+                      ]
+                    },
+                    "profilePhoto": {
+                      "type": "string"
+                    },
+                    "photos": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "age": {
+                      "type": "string"
+                    },
+                    "breed": {
+                      "type": "string"
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pet/{id}": {
       "patch": {
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "isProfilePhoto",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "Default Response"

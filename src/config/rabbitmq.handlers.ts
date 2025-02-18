@@ -1,13 +1,30 @@
+import { makeUploadPetPhotoUseCase } from "@/use-cases/pet/upload-photo/upload-photo.factory";
+import { SavedMultipartFile } from "@fastify/multipart";
+
 export interface RabbitMQHandlers {
   queue: string;
-  handler: (msg: unknown) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handler: (msg: any) => Promise<void>;
 }
 
 export const rabbitMQHandlers: RabbitMQHandlers[] = [
   {
-    queue: "teste",
-    handler: (message: unknown) => {
-      console.log("===============> HANDLER", message);
+    queue: "pet.created",
+    handler: async (message: {
+      petId: string;
+      petPhoto: SavedMultipartFile;
+    }) => {
+      const uploadPetPhotoUseCase = makeUploadPetPhotoUseCase();
+
+      if (message.petPhoto) {
+        await uploadPetPhotoUseCase.execute({
+          petId: message.petId,
+          file: message.petPhoto,
+          isProfilePhoto: true,
+        });
+      }
+
+      console.log(`Received message from queue "pet.created":`, message);
     },
   },
 ];

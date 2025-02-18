@@ -2,15 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
-import { SavedMultipartFile } from "@fastify/multipart";
+import { MultipartFile } from "@fastify/multipart";
 import sharp from "sharp";
 import { LoggerType } from "./logger";
+import dayjs from "dayjs";
 
 const pump = promisify(pipeline);
-type File = SavedMultipartFile;
+type File = MultipartFile;
 
 export class FileStorage {
-  constructor(private logger: LoggerType) { }
+  constructor(private logger: LoggerType) {}
 
   async uploadFile({
     file,
@@ -26,11 +27,10 @@ export class FileStorage {
       id,
       folder: "FileStorage",
       filename: file.filename,
-      filepath: file.filepath,
     });
 
-    if (!file || !file.filename) {
-      const errorMsg = `Invalid file: Missing filename or filepath.`;
+    if (!file || !file.filename || !file.file) {
+      const errorMsg = `Invalid file: Missing filename or file stream.`;
       console.error(errorMsg, file);
       this.logger("FileStorage").error({
         message: errorMsg,
@@ -42,8 +42,10 @@ export class FileStorage {
     }
 
     const fileName = isProfilePhoto
-      ? `profile-${id}-${file.filename}`.split(".")[0]
-      : `${id}-${file.filename}`.split(".")[0];
+      ? `profile-${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(
+          ".",
+        )[0]
+      : `${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(".")[0];
 
     const folderPath = path.join("src/uploads", id);
     await fs.promises.mkdir(folderPath, { recursive: true });
@@ -55,40 +57,27 @@ export class FileStorage {
       folder: "FileStorage",
     });
 
-    const newFilePath = path.join(folderPath, file.filename);
+    const originalFilePath = path.join(folderPath, file.filename);
 
     try {
-      await fs.promises.rename(file.filepath, newFilePath);
-      console.log(`File renamed to: ${newFilePath}`);
+      const writeStream = fs.createWriteStream(originalFilePath);
+      await pump(file.file, writeStream);
+      console.log(`File saved to: ${originalFilePath}`);
       this.logger("FileStorage").info({
-        message: `File renamed successfully`,
+        message: `File saved successfully`,
         id,
-        oldPath: file.filepath,
-        newPath: newFilePath,
+        newPath: originalFilePath,
         folder: "FileStorage",
       });
     } catch (error) {
-      const errorMsg = `Error renaming file: ${(error as Error).message}`;
+      const errorMsg = `Error saving file: ${(error as Error).message}`;
       console.error(errorMsg);
       this.logger("FileStorage").error({
         message: errorMsg,
         id,
-        oldPath: file.filepath,
-        newPath: newFilePath,
+        newPath: originalFilePath,
         folder: "FileStorage",
         error: (error as Error).message,
-      });
-      throw new Error(errorMsg);
-    }
-
-    if (!fs.existsSync(newFilePath)) {
-      const errorMsg = `File not found at: ${newFilePath}`;
-      console.error(errorMsg);
-      this.logger("FileStorage").error({
-        message: errorMsg,
-        id,
-        filePath: newFilePath,
-        folder: "FileStorage",
       });
       throw new Error(errorMsg);
     }
@@ -103,12 +92,12 @@ export class FileStorage {
       this.logger("FileStorage").info({
         message: `Starting file transformation`,
         id,
-        originalFilePath: newFilePath,
+        originalFilePath: originalFilePath,
         folder: "FileStorage",
       });
 
       await pump(
-        fs.createReadStream(newFilePath),
+        fs.createReadStream(originalFilePath),
         transformer,
         fs.createWriteStream(photoPath),
       );
@@ -116,14 +105,14 @@ export class FileStorage {
       this.logger("FileStorage").info({
         message: `File transformed and saved successfully`,
         id,
-        originalFilePath: newFilePath,
+        originalFilePath: originalFilePath,
         transformedFilePath: photoPath,
         folder: "FileStorage",
       });
 
       console.log(`File saved successfully to ${photoPath}`);
 
-      await fs.promises.unlink(newFilePath);
+      await fs.promises.unlink(originalFilePath);
 
       const { size } = await fs.promises.stat(photoPath);
       return {
@@ -137,7 +126,7 @@ export class FileStorage {
       this.logger("FileStorage").error({
         message: errorMsg,
         id,
-        originalFilePath: newFilePath,
+        originalFilePath: originalFilePath,
         transformedFilePath: photoPath,
         folder: "FileStorage",
         error: (error as Error).message,

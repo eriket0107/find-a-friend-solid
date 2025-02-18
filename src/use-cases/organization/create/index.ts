@@ -39,7 +39,7 @@ export class CreateOrganizationUseCase {
 
     if (emailExists) {
       this.logger("Organization").info({
-        messege: "Email already exists.",
+        message: "Email already exists.",
         folder: "Create UseCase",
       });
       throw new ErrorOrganizationAlreadyExists();
@@ -47,7 +47,7 @@ export class CreateOrganizationUseCase {
 
     if (cnpjExits) {
       this.logger("Organization").info({
-        messege: "Cpnj already exists.",
+        message: "Cpnj already exists.",
         folder: "Create UseCase",
       });
       throw new ErrorOrganizationCnpjAlreadyExits();
