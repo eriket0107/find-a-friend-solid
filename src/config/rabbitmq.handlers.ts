@@ -12,14 +12,14 @@ export const rabbitMQHandlers: RabbitMQHandlers[] = [
     queue: "pet.created",
     handler: async (message: {
       petId: string;
-      petPhoto: SavedMultipartFile;
+      petPhoto: AsyncIterableIterator<SavedMultipartFile>;
     }) => {
       const uploadPetPhotoUseCase = makeUploadPetPhotoUseCase();
 
       if (message.petPhoto) {
         await uploadPetPhotoUseCase.execute({
           petId: message.petId,
-          file: message.petPhoto,
+          files: message.petPhoto,
           isProfilePhoto: true,
         });
       }

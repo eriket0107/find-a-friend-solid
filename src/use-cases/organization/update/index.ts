@@ -18,7 +18,7 @@ export class UpdateOrganizationUseCase {
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
     private readonly passwordHandler: PasswordHandler,
-  ) {}
+  ) { }
 
   async execute({
     id,
