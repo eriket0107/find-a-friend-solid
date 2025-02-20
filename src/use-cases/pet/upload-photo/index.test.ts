@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { UploadPetPhotoUseCase } from ".";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
-import { FileStorage } from "@/utils/filer-storage";
+import { PhotoStorage } from "@/utils/photo-storage";
 import { LoggerType } from "@/utils/logger";
 import { ErrorPetNotFound } from "../errors";
 import { MultipartFile } from "@fastify/multipart";
@@ -25,7 +25,7 @@ const fileStorage = {
     .fn()
     .mockResolvedValue({ photoPath: "photo-url", type: "webp" }),
   logger,
-} as unknown as FileStorage;
+} as unknown as PhotoStorage;
 
 const spyUpload = vi.spyOn(fileStorage, "uploadFile");
 

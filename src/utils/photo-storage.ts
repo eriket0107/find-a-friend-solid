@@ -8,75 +8,75 @@ import { LoggerType } from "./logger";
 import dayjs from "dayjs";
 
 const pump = promisify(pipeline);
-type File = MultipartFile;
+type PhotoFile = MultipartFile;
 
-export class FileStorage {
-  constructor(private logger: LoggerType) {}
+export class PhotoStorage {
+  constructor(private logger: LoggerType) { }
 
   async uploadFile({
-    file,
+    photoFile,
     id,
     isProfilePhoto,
   }: {
-    file: File;
+    photoFile: PhotoFile;
     id: string;
     isProfilePhoto: boolean;
   }) {
-    this.logger("FileStorage").info({
+    this.logger("PhotoStorage").info({
       message: `Starting file upload process`,
       id,
-      folder: "FileStorage",
-      filename: file.filename,
+      folder: "PhotoStorage",
+      filename: photoFile.filename,
     });
 
-    if (!file || !file.filename || !file.file) {
+    if (!photoFile || !photoFile.filename || !photoFile.file) {
       const errorMsg = `Invalid file: Missing filename or file stream.`;
-      console.error(errorMsg, file);
-      this.logger("FileStorage").error({
+      console.error(errorMsg, photoFile);
+      this.logger("PhotoStorage").error({
         message: errorMsg,
         id,
-        folder: "FileStorage",
-        fileName: file?.filename,
+        folder: "PhotoStorage",
+        fileName: photoFile?.filename,
       });
       throw new Error(errorMsg);
     }
 
     const fileName = isProfilePhoto
       ? `profile-${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(
-          ".",
-        )[0]
+        ".",
+      )[0]
       : `${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(".")[0];
 
     const folderPath = path.join("src/uploads", id);
     await fs.promises.mkdir(folderPath, { recursive: true });
 
-    this.logger("FileStorage").info({
+    this.logger("PhotoStorage").info({
       message: `Folder created or verified`,
       id,
       folderPath,
-      folder: "FileStorage",
+      folder: "PhotoStorage",
     });
 
-    const originalFilePath = path.join(folderPath, file.filename);
+    const originalFilePath = path.join(folderPath, photoFile.filename);
 
     try {
       const writeStream = fs.createWriteStream(originalFilePath);
-      await pump(file.file, writeStream);
-      console.log(`File saved to: ${originalFilePath}`);
-      this.logger("FileStorage").info({
-        message: `File saved successfully`,
+      await pump(photoFile.file, writeStream);
+      console.log(`PhotoFile saved to: ${originalFilePath}`);
+      this.logger("PhotoStorage").info({
+        message: `PhotoFile saved successfully`,
         id,
         newPath: originalFilePath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
       });
     } catch (error) {
       const errorMsg = `Error saving file: ${(error as Error).message}`;
       console.error(errorMsg);
-      this.logger("FileStorage").error({
+      this.logger("PhotoStorage").error({
         message: errorMsg,
         id,
         newPath: originalFilePath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
         error: (error as Error).message,
       });
       throw new Error(errorMsg);
@@ -89,11 +89,11 @@ export class FileStorage {
       .toFormat("webp");
 
     try {
-      this.logger("FileStorage").info({
+      this.logger("PhotoStorage").info({
         message: `Starting file transformation`,
         id,
         originalFilePath: originalFilePath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
       });
 
       await pump(
@@ -102,15 +102,15 @@ export class FileStorage {
         fs.createWriteStream(photoPath),
       );
 
-      this.logger("FileStorage").info({
-        message: `File transformed and saved successfully`,
+      this.logger("PhotoStorage").info({
+        message: `PhotoFile transformed and saved successfully`,
         id,
         originalFilePath: originalFilePath,
         transformedFilePath: photoPath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
       });
 
-      console.log(`File saved successfully to ${photoPath}`);
+      console.log(`PhotoFile saved successfully to ${photoPath}`);
 
       await fs.promises.unlink(originalFilePath);
 
@@ -123,12 +123,12 @@ export class FileStorage {
     } catch (error) {
       const errorMsg = `Error processing file: ${(error as Error).message}`;
       console.error(errorMsg);
-      this.logger("FileStorage").error({
+      this.logger("PhotoStorage").error({
         message: errorMsg,
         id,
         originalFilePath: originalFilePath,
         transformedFilePath: photoPath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
         error: (error as Error).message,
       });
       throw error;
@@ -138,10 +138,10 @@ export class FileStorage {
   async readFile(filePath: string): Promise<Buffer> {
     try {
       const fileBuffer = await fs.promises.readFile(filePath);
-      this.logger("FileStorage").info({
-        message: `File read successfully`,
+      this.logger("PhotoStorage").info({
+        message: `PhotoFile read successfully`,
         filePath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
         fileSize: fileBuffer.length,
       });
 
@@ -149,10 +149,10 @@ export class FileStorage {
     } catch (error) {
       const errorMsg = `Error reading file at ${filePath}: ${(error as Error).message}`;
       console.error(errorMsg);
-      this.logger("FileStorage").error({
+      this.logger("PhotoStorage").error({
         message: errorMsg,
         filePath,
-        folder: "FileStorage",
+        folder: "PhotoStorage",
         error: (error as Error).message,
       });
       throw error;

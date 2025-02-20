@@ -6,7 +6,6 @@ import { LoggerType } from "@/utils/logger";
 import { Pet } from "database/entities/Pet";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
-import { RabbitMQ } from "@/services/rabbitmq";
 
 let sut: CreatePetUseCase;
 let petRepository: PetInMemoryRepository;
@@ -24,16 +23,6 @@ const logger: LoggerType = vi.fn((level: string = "info") => ({
   silent: vi.fn(),
 }));
 
-const mockRabbitMQ = vi.mocked({
-  connection: vi.fn(),
-  channel: vi.fn(),
-  connect: vi.fn(),
-  publish: vi.fn(),
-  consume: vi.fn(),
-  close: vi.fn(),
-  startListening: vi.fn(),
-}) as unknown as RabbitMQ;
-
 describe("Create Pet Use Case", () => {
   beforeEach(() => {
     petRepository = new PetInMemoryRepository();
@@ -45,7 +34,6 @@ describe("Create Pet Use Case", () => {
     sut = new CreatePetUseCase(
       petRepository,
       getByIdOrganizationUseCase,
-      mockRabbitMQ,
       logger,
     );
   });
@@ -110,30 +98,88 @@ describe("Create Pet Use Case", () => {
     );
   });
 
-  // it.skip("should not create a pet if required fields are missing", async () => {
-  //   await organizationRepository.create({
-  //     id: "valid-org-id",
-  //     name: "Teste Org",
-  //     email: "org@gmail.com",
-  //     cnpj: "46367217000135",
-  //     whatsapp: "21999999999",
-  //     street: "Av Alfredo Balthazar da silveira",
-  //     city: "Rio de Janeiro",
-  //     state: "Rio de Janeiro",
-  //     cep: "22790710",
-  //     country: "BRA",
-  //   });
+  it("should not create a pet if required fields are missing", async () => {
+    await organizationRepository.create({
+      id: "valid-org-id",
+      name: "Teste Org",
+      email: "org@gmail.com",
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
+      street: "Av Alfredo Balthazar da silveira",
+      city: "Rio de Janeiro",
+      state: "Rio de Janeiro",
+      cep: "22790710",
+      country: "BRA",
+    });
 
-  //   const incompletePetData: Pet = {
-  //     id: "pet-id",
-  //     name: "Buddy",
-  //     age: "2",
-  //     breed: "Labrador",
-  //     // Missing fields like gender, photos, etc.
-  //   };
+    const incompletePetData = {
+      id: "pet-id",
+      name: "Buddy",
+      age: "2",
+      breed: "Labrador",
+      organization: "valid-org-id",
+    } as Pet;
 
-  //   await expect(
-  //     sut.execute({ organizationId: "valid-org-id", pet: incompletePetData }),
-  //   ).rejects.toThrow();
-  // });
+    await expect(sut.execute({ pet: incompletePetData })).rejects.toThrow();
+  });
+
+  it("should validate pet age format", async () => {
+    await organizationRepository.create({
+      id: "valid-org-id",
+      name: "Teste Org",
+      email: "org@gmail.com",
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
+      street: "Av Alfredo Balthazar da silveira",
+      city: "Rio de Janeiro",
+      state: "Rio de Janeiro",
+      cep: "22790710",
+      country: "BRA",
+    });
+
+    const invalidAgePetData: Pet = {
+      id: "pet-id",
+      name: "Buddy",
+      age: "-1", // Invalid age
+      breed: "Labrador",
+      gender: "M",
+      profilePhoto: "https://example.com/buddy.jpg",
+      photos: ["https://example.com/buddy1.jpg"],
+      description: "Cute and friendly",
+      traits: ["Friendly"],
+      organization: "valid-org-id",
+    };
+
+    await expect(sut.execute({ pet: invalidAgePetData })).rejects.toThrow();
+  });
+
+  it("should validate pet gender format", async () => {
+    await organizationRepository.create({
+      id: "valid-org-id",
+      name: "Teste Org",
+      email: "org@gmail.com",
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
+      street: "Av Alfredo Balthazar da silveira",
+      city: "Rio de Janeiro",
+      state: "Rio de Janeiro",
+      cep: "22790710",
+      country: "BRA",
+    });
+
+    const invalidGenderPetData: Pet = {
+      id: "pet-id",
+      name: "Buddy",
+      age: "2",
+      breed: "Labrador",
+      gender: "X",
+      profilePhoto: "https://example.com/buddy.jpg",
+      photos: ["https://example.com/buddy1.jpg"],
+      description: "Cute and friendly",
+      traits: ["Friendly"],
+      organization: "valid-org-id",
+    };
+
+    await expect(sut.execute({ pet: invalidGenderPetData })).rejects.toThrow();
+  });
 });

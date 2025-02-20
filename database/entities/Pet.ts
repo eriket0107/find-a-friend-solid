@@ -37,6 +37,9 @@ export class Pet {
   @Column("varchar", { array: true })
   traits!: string[];
 
+  @Column({ type: "boolean", default: false })
+  isAdopted?: boolean;
+
   @CreateDateColumn({ name: "created_at" })
   created_at?: Date;
 

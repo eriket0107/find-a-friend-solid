@@ -40,10 +40,8 @@ export class PetInMemoryRepository implements IPetRepository {
 
     this.repository = this.repository.filter((data) => data.id !== id);
   }
-  async listByOrganization(organizationId: string): Promise<Pet[]> {
-    return this.repository.filter(
-      (data) => data.organizationId === organizationId,
-    );
+  async listByOrganization(id: string): Promise<Pet[]> {
+    return this.repository.filter((data) => data.id === id);
   }
 
   async list({

@@ -1,5 +1,5 @@
 import { IPetRepository } from "@/repositories/pet.repository";
-import { FileStorage } from "@/utils/filer-storage";
+import { PhotoStorage } from "@/utils/photo-storage";
 import { LoggerType } from "@/utils/logger";
 import { MultipartFile } from "@fastify/multipart";
 import { ErrorPetNotFound } from "../errors";
@@ -18,7 +18,7 @@ interface UpdatePetUseCaseResponse {
 export class UploadPetPhotoUseCase {
   constructor(
     private logger: LoggerType,
-    private fileStorage: FileStorage,
+    private photoStorage: PhotoStorage,
     private petRepository: IPetRepository,
   ) { }
 
@@ -46,8 +46,8 @@ export class UploadPetPhotoUseCase {
     const photos: string[] = [];
 
     for await (const file of files) {
-      const { photoPath } = await this.fileStorage.uploadFile({
-        file,
+      const { photoPath } = await this.photoStorage.uploadFile({
+        photoFile: file,
         id: petId,
         isProfilePhoto,
       });

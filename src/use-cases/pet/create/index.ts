@@ -1,9 +1,13 @@
 import { IPetRepository } from "@/repositories/pet.repository";
-import { RabbitMQ } from "@/services/rabbitmq";
 import { ErrorOrganizationNotFound } from "@/use-cases/organization/errors";
 import { GetByIdOrganizationUseCase } from "@/use-cases/organization/get-by-id";
 import { LoggerType } from "@/utils/logger";
 import { Pet } from "database/entities/Pet";
+import {
+  ErrorPetInvalidAgeFormat,
+  ErrorPetInvalidGenderFormat,
+  ErrorPetRequiredFields,
+} from "../errors";
 
 interface ICreatePetUseCaseRequest {
   pet: Pet;
@@ -13,9 +17,8 @@ export class CreatePetUseCase {
   constructor(
     private readonly repository: IPetRepository,
     private readonly organization: GetByIdOrganizationUseCase,
-    private readonly rabbitMQ: RabbitMQ,
     private readonly logger: LoggerType,
-  ) {}
+  ) { }
 
   async execute({ pet }: ICreatePetUseCaseRequest) {
     this.logger("Pet").info({
@@ -23,6 +26,24 @@ export class CreatePetUseCase {
       organizationId: pet.organization,
       folder: "Create Pet UseCase",
     });
+
+    if (
+      !pet.name ||
+      !pet.breed ||
+      !pet.gender ||
+      !pet.description ||
+      !pet.traits
+    ) {
+      throw new ErrorPetRequiredFields();
+    }
+
+    if (parseInt(pet.age) < 0) {
+      throw new ErrorPetInvalidAgeFormat();
+    }
+
+    if (!["M", "F"].includes(pet.gender)) {
+      throw new ErrorPetInvalidGenderFormat();
+    }
 
     const { organization } = await this.organization.execute({
       id: pet.organization,

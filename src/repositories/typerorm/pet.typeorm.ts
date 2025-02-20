@@ -49,7 +49,7 @@ export class PetTypeOrm implements IPetRepository {
 
   async listByOrganization(organizationId: string): Promise<Pet[]> {
     return await this.repository.find({
-      where: { organizationId },
+      where: { organization: organizationId } as FindOptionsWhere<Pet>,
     });
   }
 

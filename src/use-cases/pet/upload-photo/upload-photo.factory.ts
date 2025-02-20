@@ -1,11 +1,11 @@
 import { PetTypeOrm } from "@/repositories/typerorm/pet.typeorm";
 import { UploadPetPhotoUseCase } from ".";
-import { FileStorage } from "@/utils/filer-storage";
+import { PhotoStorage } from "@/utils/photo-storage";
 import { logger } from "@/utils/logger";
 
 export const makeUploadPetPhotoUseCase = () => {
   const petRepository = new PetTypeOrm();
-  const fileStorage = new FileStorage(logger);
+  const photoStorage = new PhotoStorage(logger);
 
-  return new UploadPetPhotoUseCase(logger, fileStorage, petRepository);
+  return new UploadPetPhotoUseCase(logger, photoStorage, petRepository);
 };
