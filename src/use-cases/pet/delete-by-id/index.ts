@@ -6,7 +6,7 @@ interface DeletePetUseCaseRequest {
   id: string;
 }
 
-export class DeletePetUseCase {
+export class DeletePetByIdUseCase {
   constructor(
     private readonly petRepository: IPetRepository,
     private readonly logger: LoggerType,

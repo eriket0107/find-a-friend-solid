@@ -1,20 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DeletePetUseCase } from "./index";
+import { DeletePetByIdUseCase } from "./index";
 import { LoggerType } from "@/utils/logger";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
 import { ErrorPetNotFound } from "../errors";
 
 let repository: PetInMemoryRepository;
-let deletePetUseCase: DeletePetUseCase;
+let deletePetUseCase: DeletePetByIdUseCase;
 
 const logger = vi.fn(() => ({
   info: vi.fn(),
 })) as unknown as LoggerType;
 
-describe("DeletePetUseCase", () => {
+describe("DeletePetByIdUseCase", () => {
   beforeEach(() => {
     repository = new PetInMemoryRepository();
-    deletePetUseCase = new DeletePetUseCase(repository, logger);
+    deletePetUseCase = new DeletePetByIdUseCase(repository, logger);
   });
 
   it("should delete a pet successfully", async () => {

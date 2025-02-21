@@ -1,4 +1,4 @@
-import { makeDeletePet } from "@/use-cases/pet/delete/delete.factory";
+import { makeDeletePet } from "@/use-cases/pet/delete-by-id/delete.factory";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -8,7 +8,7 @@ const schema = z.object({
   id: z.string(),
 });
 
-export const deletePet = async (
+export const deleteById = async (
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {

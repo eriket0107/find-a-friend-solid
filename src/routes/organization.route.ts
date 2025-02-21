@@ -1,6 +1,6 @@
 import { changePassword } from "@/controllers/organization/change-password";
 import { create } from "@/controllers/organization/create";
-import { deleteById } from "@/controllers/organization/delete";
+import { deleteById } from "@/controllers/organization/delete-by-id";
 import { getById } from "@/controllers/organization/get-by-id";
 import { list } from "@/controllers/organization/list";
 import { update } from "@/controllers/organization/update";

@@ -1,5 +1,5 @@
 import { create } from "@/controllers/pet/create";
-import { deletePet } from "@/controllers/pet/delete";
+import { deleteById } from "@/controllers/pet/delete-by-id";
 import { photoUpload } from "@/controllers/pet/photo-upload";
 import { update } from "@/controllers/pet/update";
 import { FastifyInstance } from "fastify";
@@ -129,6 +129,6 @@ export const petsRoutes = (app: FastifyInstance) => {
         },
       },
     },
-    deletePet,
+    deleteById,
   );
 };
