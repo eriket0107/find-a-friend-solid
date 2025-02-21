@@ -11,7 +11,10 @@ export class PetTypeOrm implements IPetRepository {
   }
 
   async getById(id: string): Promise<Pet | null> {
-    const pet = await this.repository.findOneBy({ id });
+    const pet = await this.repository.findOne({
+      where: { id },
+      relations: { organization: true },
+    });
 
     if (!pet) return null;
 
@@ -83,6 +86,7 @@ export class PetTypeOrm implements IPetRepository {
     return await this.repository.find({
       where: whereConditions as FindOptionsWhere<Pet>,
       order,
+      relations: { organization: true },
       take: limit,
       skip,
     });

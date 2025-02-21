@@ -1,5 +1,6 @@
 import { create } from "@/controllers/pet/create";
 import { photoUpload } from "@/controllers/pet/photo-upload";
+import { update } from "@/controllers/pet/update";
 import { FastifyInstance } from "fastify";
 
 export const petsRoutes = (app: FastifyInstance) => {
@@ -82,5 +83,34 @@ export const petsRoutes = (app: FastifyInstance) => {
       },
     },
     photoUpload,
+  );
+
+  app.put(
+    "/pet/:id",
+    {
+      schema: {
+        tags: ["Pet"],
+        params: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+          },
+          required: ["id"],
+        },
+        body: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            age: { type: "string" },
+            gender: { type: "string", enum: ["M", "F"] },
+            breed: { type: "string" },
+            traits: { type: "array", items: { type: "string" } },
+            description: { type: "string" },
+            organization: { type: "string" },
+          },
+        },
+      },
+    },
+    update,
   );
 };

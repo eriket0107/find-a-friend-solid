@@ -7,7 +7,7 @@ import { Pet } from "database/entities/Pet";
 
 interface IUploadPetPhotoUseCaseRequest {
   petId: string;
-  files: MultipartFile[];
+  files: AsyncIterableIterator<MultipartFile>;
   isProfilePhoto: boolean;
 }
 

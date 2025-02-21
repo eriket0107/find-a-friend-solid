@@ -3,11 +3,18 @@ import { IPetRepository } from "@/repositories/pet.repository";
 import { ErrorOrganizationNotFound } from "@/use-cases/organization/errors";
 import { LoggerType } from "@/utils/logger";
 import { Pet } from "database/entities/Pet";
-import { ErrorPetNotAssociatedWithOrganization } from "../errors";
+import {
+  ErrorPetNotAssociatedWithOrganization,
+  ErrorPetNotFound,
+} from "../errors";
 
 interface UpdatePetUseCaseRequest {
   id: string;
   data: Partial<Pet>;
+}
+
+interface UpdatePetUseCaseResponse {
+  pet: Pet;
 }
 
 export class UpdatePetUseCase {
@@ -17,7 +24,10 @@ export class UpdatePetUseCase {
     private readonly logger: LoggerType,
   ) { }
 
-  async execute({ id, data }: UpdatePetUseCaseRequest) {
+  async execute({
+    id,
+    data,
+  }: UpdatePetUseCaseRequest): Promise<UpdatePetUseCaseResponse> {
     this.logger("Pet").info({
       message: `Start update pet`,
       id,
@@ -26,7 +36,19 @@ export class UpdatePetUseCase {
       folder: "Update Pet UseCase",
     });
 
-    if (!data.organization) {
+    const petToCheck = await this.petRepository.getById(id);
+    if (!petToCheck) {
+      throw new ErrorPetNotFound();
+    }
+
+    this.logger("Pet").debug({
+      message: "Pet found with organization ID",
+      petId: id,
+      organizationId: petToCheck.organization,
+      folder: "Update Pet UseCase",
+    });
+
+    if (!petToCheck.organization.id) {
       this.logger("Pet").info({
         message: `This pet is not associated with an organization`,
         id,
@@ -34,9 +56,8 @@ export class UpdatePetUseCase {
       });
       throw new ErrorPetNotAssociatedWithOrganization();
     }
-
     const organization = await this.organizationRepository.getById(
-      data.organization,
+      petToCheck.organization.id,
     );
 
     if (!organization) {
@@ -49,6 +70,16 @@ export class UpdatePetUseCase {
     }
 
     const pet = await this.petRepository.update({ id, data });
-    return pet;
+
+    if (!pet) {
+      this.logger("Pet").info({
+        message: `Pet not found`,
+        id,
+        folder: "Update Pet UseCase",
+      });
+      throw new ErrorPetNotFound();
+    }
+
+    return { pet };
   }
 }

@@ -3,6 +3,12 @@ import { UpdatePetUseCase } from ".";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
 import { LoggerType } from "@/utils/logger";
+import {
+  ErrorPetNotFound,
+  ErrorPetNotAssociatedWithOrganization,
+} from "../errors";
+import { ErrorOrganizationNotFound } from "@/use-cases/organization/errors";
+import { Organization } from "database/entities/Organization";
 
 let sut: UpdatePetUseCase;
 let petRepository: PetInMemoryRepository;
@@ -27,7 +33,7 @@ describe("Update Pet UseCase", () => {
   });
 
   it("should be able to update a pet", async () => {
-    await organizationRepository.create({
+    const organization = await organizationRepository.create({
       id: "valid-org-id",
       name: "Teste Org",
       email: "org@gmail.com",
@@ -53,15 +59,16 @@ describe("Update Pet UseCase", () => {
       ],
       description: "Cute and friendly",
       traits: ["Friendly", "Playful"],
-      organization: "valid-org-id",
+      organization: organization,
     });
 
-    const updatedPet = await sut.execute({
+    await organizationRepository.create(organization);
+
+    const { pet: updatedPet } = await sut.execute({
       id: pet.id as string,
       data: {
         name: "Max",
         age: "3",
-        organization: "valid-org-id",
       },
     });
 
@@ -69,7 +76,18 @@ describe("Update Pet UseCase", () => {
     expect(updatedPet).toHaveProperty("age", "3");
   });
 
-  it("should not be able to update a pet with non-existent organization", async () => {
+  it("should not be able to update a non-existent pet", async () => {
+    await expect(() =>
+      sut.execute({
+        id: "non-existent-pet",
+        data: {
+          name: "Max",
+        },
+      }),
+    ).rejects.toBeInstanceOf(ErrorPetNotFound);
+  });
+
+  it("should not be able to update a pet that has no organization", async () => {
     const pet = await petRepository.create({
       id: "pet-id-2",
       name: "Luna",
@@ -80,7 +98,7 @@ describe("Update Pet UseCase", () => {
       photos: ["https://example.com/luna1.jpg"],
       description: "Sweet and gentle",
       traits: ["Sweet", "Gentle"],
-      organization: "valid-org-id",
+      organization: { id: "" } as Organization,
     });
 
     await expect(() =>
@@ -88,13 +106,25 @@ describe("Update Pet UseCase", () => {
         id: pet.id as string,
         data: {
           name: "Luna Updated",
-          organization: "invalid-org-id",
         },
       }),
-    ).rejects.toThrow("Organization not found.");
+    ).rejects.toBeInstanceOf(ErrorPetNotAssociatedWithOrganization);
   });
 
-  it("should not be able to update a pet without organization", async () => {
+  it("should not be able to update a pet whose organization does not exist", async () => {
+    const organization = {
+      id: "non-existent-org-id",
+      name: "Non Existent Org",
+      email: "org@gmail.com",
+      cnpj: "46367217000135",
+      whatsapp: "21999999999",
+      street: "Av Alfredo Balthazar da silveira",
+      city: "Rio de Janeiro",
+      state: "Rio de Janeiro",
+      cep: "22790710",
+      country: "BRA",
+    } as Organization;
+
     const pet = await petRepository.create({
       id: "pet-id-3",
       name: "Rex",
@@ -105,7 +135,7 @@ describe("Update Pet UseCase", () => {
       photos: ["https://example.com/rex1.jpg"],
       description: "Loyal and protective",
       traits: ["Loyal", "Protective"],
-      organization: "valid-org-id",
+      organization,
     });
 
     await expect(() =>
@@ -115,6 +145,6 @@ describe("Update Pet UseCase", () => {
           name: "Rex Updated",
         },
       }),
-    ).rejects.toThrow("Pet not associated with organization.");
+    ).rejects.toBeInstanceOf(ErrorOrganizationNotFound);
   });
 });

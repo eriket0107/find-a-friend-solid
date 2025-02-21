@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -46,6 +47,7 @@ export class Pet {
   @UpdateDateColumn({ name: "updated_at" })
   updated_at?: Date;
 
-  @ManyToOne(() => Organization, (organization) => organization.id)
-  organization!: string;
+  @ManyToOne(() => Organization)
+  @JoinColumn({ name: "organization_id" })
+  organization!: Organization;
 }

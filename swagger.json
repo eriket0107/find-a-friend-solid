@@ -775,6 +775,65 @@
             "description": "Default Response"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Pet"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "M",
+                      "F"
+                    ]
+                  },
+                  "breed": {
+                    "type": "string"
+                  },
+                  "traits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "organization": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
       }
     }
   }
