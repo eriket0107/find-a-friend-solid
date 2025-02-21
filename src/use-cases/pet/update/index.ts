@@ -22,7 +22,7 @@ export class UpdatePetUseCase {
     private readonly petRepository: IPetRepository,
     private readonly organizationRepository: IOrganizationRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({
     id,

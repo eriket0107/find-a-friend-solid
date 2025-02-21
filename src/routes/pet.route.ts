@@ -1,4 +1,5 @@
 import { create } from "@/controllers/pet/create";
+import { deletePet } from "@/controllers/pet/delete";
 import { photoUpload } from "@/controllers/pet/photo-upload";
 import { update } from "@/controllers/pet/update";
 import { FastifyInstance } from "fastify";
@@ -112,5 +113,22 @@ export const petsRoutes = (app: FastifyInstance) => {
       },
     },
     update,
+  );
+
+  app.delete(
+    "/pet/:id",
+    {
+      schema: {
+        tags: ["Pet"],
+        params: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+          },
+          required: ["id"],
+        },
+      },
+    },
+    deletePet,
   );
 };

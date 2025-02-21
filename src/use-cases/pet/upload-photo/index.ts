@@ -20,7 +20,7 @@ export class UploadPetPhotoUseCase {
     private logger: LoggerType,
     private photoStorage: PhotoStorage,
     private petRepository: IPetRepository,
-  ) { }
+  ) {}
 
   async execute({
     petId,
