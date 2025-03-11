@@ -8,6 +8,14 @@ import { ZodError } from "zod";
 import { env } from "./env";
 import { logger } from "./utils/logger";
 import { routes } from "./routes";
+import { RabbitMQ } from "./services/rabbitmq";
+import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
+import fastifyMultipart from "@fastify/multipart";
+import fastifyStatic from "@fastify/static";
+import path from "node:path";
+
+const __dirname = path.resolve();
+const rabbitMQ = new RabbitMQ();
 
 export const app = Fastify({
   logger: {
@@ -32,6 +40,10 @@ app.register(cors, {
   origin: true,
 });
 
+app.register(fastifyMultipart, {
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB max file size
+});
+
 app.register(fastifySwagger, {
   openapi: {
     openapi: "3.0.0",
@@ -48,6 +60,13 @@ app
     routePrefix: "/docs",
   })
   .withTypeProvider();
+
+rabbitMQ.startListening(rabbitMQHandlers);
+
+app.register(fastifyStatic, {
+  root: path.join(__dirname, "/uploads"),
+  prefix: "/uploads",
+});
 
 routes(app);
 
@@ -69,7 +88,7 @@ app.setErrorHandler((error, _, reply) => {
   }
 
   logger("app").error({
-    message: error.message,
+    message: `Error message from APP: ${error.message}`,
     line: "71",
   });
   return reply.status(500).send({ message: "Internal server error" });

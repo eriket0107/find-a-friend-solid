@@ -6,6 +6,7 @@ import {
   ErrorOrganizationAlreadyExists,
   ErrorOrganizationCnpjAlreadyExits,
 } from "../errors";
+import { RabbitMQ } from "@/services/rabbitmq";
 
 interface ICreateOrganizationUseCaseRequest {
   data: Organization;
@@ -21,6 +22,7 @@ export class CreateOrganizationUseCase {
     private readonly repository: IOrganizationRepository,
     private readonly logger: LoggerType,
     private readonly passwordHandler: PasswordHandler,
+    private readonly amqp: RabbitMQ,
   ) {}
 
   async execute({
@@ -37,7 +39,7 @@ export class CreateOrganizationUseCase {
 
     if (emailExists) {
       this.logger("Organization").info({
-        messege: "Email already exists.",
+        message: "Email already exists.",
         folder: "Create UseCase",
       });
       throw new ErrorOrganizationAlreadyExists();
@@ -45,7 +47,7 @@ export class CreateOrganizationUseCase {
 
     if (cnpjExits) {
       this.logger("Organization").info({
-        messege: "Cpnj already exists.",
+        message: "Cpnj already exists.",
         folder: "Create UseCase",
       });
       throw new ErrorOrganizationCnpjAlreadyExits();
@@ -69,6 +71,8 @@ export class CreateOrganizationUseCase {
       folder: "Create UseCase",
       data,
     });
+
+    await this.amqp.publish("teste2", JSON.stringify(data));
 
     return { organization };
   }

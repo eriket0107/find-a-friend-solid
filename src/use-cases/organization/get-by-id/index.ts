@@ -21,7 +21,7 @@ export class GetByIdOrganizationUseCase {
     id,
   }: IGetByIdOrganizationUseCaseRequest): Promise<IGetByIdOrganizationUseCaseResponse> {
     this.logger("Organization").info({
-      messege: `Start get by id`,
+      message: `Start get by id`,
       id,
       folder: "Get By Id UseCase",
     });
@@ -30,7 +30,7 @@ export class GetByIdOrganizationUseCase {
 
     if (!organization) {
       this.logger("Organization").info({
-        messege: `'Any Organization avaible upon id`,
+        message: `'Any Organization avaible upon id`,
         id,
         folder: "Get By Id UseCase",
       });
@@ -38,7 +38,7 @@ export class GetByIdOrganizationUseCase {
     }
 
     this.logger("Organization").info({
-      messege: `Finish get`,
+      message: `Finish get`,
       id,
       folder: "Get By Id UseCase",
     });
