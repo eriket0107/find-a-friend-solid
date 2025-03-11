@@ -27,3 +27,8 @@ export class ErrorPetInvalidGenderFormat extends Error {
     super("Invalid gender format.");
   }
 }
+export class ErrorPetListCityIsRequired extends Error {
+  constructor() {
+    super("Organization city is required to list pets.");
+  }
+}

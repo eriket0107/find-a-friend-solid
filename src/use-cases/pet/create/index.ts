@@ -9,8 +9,12 @@ import {
   ErrorPetRequiredFields,
 } from "../errors";
 
+interface CreatePetUseCasePet extends Omit<Pet, "organization"> {
+  organizationId: string;
+}
+
 interface ICreatePetUseCaseRequest {
-  pet: Pet;
+  pet: CreatePetUseCasePet;
 }
 
 export class CreatePetUseCase {
@@ -18,12 +22,12 @@ export class CreatePetUseCase {
     private readonly repository: IPetRepository,
     private readonly organization: GetByIdOrganizationUseCase,
     private readonly logger: LoggerType,
-  ) {}
+  ) { }
 
   async execute({ pet }: ICreatePetUseCaseRequest) {
     this.logger("Pet").info({
       message: `Start create pet use`,
-      organizationId: pet.organization,
+      organizationId: pet.organizationId,
       folder: "Create Pet UseCase",
     });
 
@@ -46,13 +50,13 @@ export class CreatePetUseCase {
     }
 
     const { organization } = await this.organization.execute({
-      id: pet.organization,
+      id: pet.organizationId,
     });
 
     if (!organization) {
       this.logger("Pet").info({
         message: `Organization not found`,
-        organizationId: pet.organization,
+        organizationId: pet.organizationId,
         folder: "Create Pet UseCase",
       });
       throw new ErrorOrganizationNotFound();
@@ -60,11 +64,22 @@ export class CreatePetUseCase {
 
     this.logger("Pet").info({
       message: `Start create pet`,
-      organizationId: pet.organization,
+      organizationId: pet.organizationId,
       folder: "Create Pet UseCase",
     });
 
-    const petCreated = await this.repository.create(pet);
+    const body: Pet = {
+      ...pet,
+      organization,
+    };
+
+    this.logger("Pet").info({
+      message: `Body`,
+      body,
+      folder: "Create Pet UseCase",
+    });
+
+    const petCreated = await this.repository.create(body);
 
     this.logger("Pet").info({
       message: `Finish create pet`,

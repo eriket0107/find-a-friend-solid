@@ -33,7 +33,7 @@ const mockFile = {
   filename: "photo.jpg",
   mimetype: "image/jpeg",
   file: Buffer.from("mock file content"),
-} as unknown as MultipartFile;
+} as unknown as AsyncIterableIterator<MultipartFile>;
 
 describe("Upload Pet Photo Use Case", () => {
   beforeEach(() => {
@@ -43,19 +43,31 @@ describe("Upload Pet Photo Use Case", () => {
 
   it("should upload pet photos successfully", async () => {
     await repository.create({
-      id: "pet-id",
-      name: "Buddy",
-      age: "2",
+      id: "pet-id-1",
+      name: "John Doe",
+      age: "1",
       breed: "Labrador",
+      description: "This is a test pet",
       gender: "M",
-      description: "Cute and friendly",
-      traits: ["Friendly", "Playful"],
-      organization: "valid-org-id",
+      traits: ["Teste"],
+      isAdopted: false,
+      organization: {
+        id: "1",
+        name: "John Doe",
+        street: "123 Main St",
+        whatsapp: "1234567890",
+        cnpj: "1234567890",
+        email: "john.doe@example.com",
+        cep: "1234567890",
+        city: "São Paulo",
+        state: "SP",
+        country: "Brazil",
+      },
     });
 
     const { uploadedPetPhoto } = await sut.execute({
-      petId: "pet-id",
-      files: [mockFile],
+      petId: "pet-id-1",
+      files: [mockFile] as unknown as AsyncIterableIterator<MultipartFile>,
       isProfilePhoto: true,
     });
 
@@ -70,7 +82,7 @@ describe("Upload Pet Photo Use Case", () => {
     await expect(
       sut.execute({
         petId: nonExistentPetId,
-        files: [],
+        files: [] as unknown as AsyncIterableIterator<MultipartFile>,
         isProfilePhoto: true,
       }),
     ).rejects.toThrowError(ErrorPetNotFound);
@@ -82,7 +94,7 @@ describe("Upload Pet Photo Use Case", () => {
     await expect(
       sut.execute({
         petId: "pet-id",
-        files: [mockFile],
+        files: [mockFile] as unknown as AsyncIterableIterator<MultipartFile>,
         isProfilePhoto: true,
       }),
     ).rejects.toBeInstanceOf(ErrorPetNotFound);

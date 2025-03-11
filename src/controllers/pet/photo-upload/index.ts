@@ -23,15 +23,16 @@ export const photoUpload = async (
 
     const files = request.files();
 
-    const photos: string[] = [];
-
+    console.log("files =================================", files);
     await updatePhotoUseCase.execute({
       petId: id,
       files,
       isProfilePhoto,
     });
 
-    return reply.status(200).send({ photos });
+    return reply
+      .status(200)
+      .send({ message: "Pet photo uploaded successfully" });
   } catch (error) {
     errorHandler({
       error,

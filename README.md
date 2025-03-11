@@ -25,10 +25,10 @@ docker compose up --build
 
 ## Application Rules
 
-- [ ] It should be possible to CRUD a pet
-- [ ] It should be possible to list all pets available for adoption in a Organization
-- [ ] It should be possible to list all pets available for adoption in a City
-- [ ] It should be possible to filter pets by their characteristics
+- [X] It should be possible to CRUD a pet
+- [X] It should be possible to list all pets available for adoption in a Organization
+- [X] It should be possible to list all pets available for adoption in a City
+- [X] It should be possible to filter pets by their characteristics
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
 - [X] It should be possible to CRUD an ORG
 - [ ] It should be possible to log in and log out as an ORG

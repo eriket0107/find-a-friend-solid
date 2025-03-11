@@ -3,9 +3,13 @@ import { CreatePetUseCase } from ".";
 import { GetByIdOrganizationUseCase } from "@/use-cases/organization/get-by-id";
 import { ErrorOrganizationNotFound } from "@/use-cases/organization/errors";
 import { LoggerType } from "@/utils/logger";
-import { Pet } from "database/entities/Pet";
 import { PetInMemoryRepository } from "@/repositories/in-memory/pet.in-memory";
 import { OrganizationInMemoryRepository } from "@/repositories/in-memory/organization.in-memory";
+import { Pet } from "database/entities/Pet";
+
+interface PetTest extends Omit<Pet, "organization"> {
+  organizationId: string;
+}
 
 let sut: CreatePetUseCase;
 let petRepository: PetInMemoryRepository;
@@ -39,7 +43,7 @@ describe("Create Pet Use Case", () => {
   });
 
   it("should be able to create a pet", async () => {
-    await organizationRepository.create({
+    const organization = await organizationRepository.create({
       id: "valid-org-id",
       name: "Teste Org",
       email: "org@gmail.com",
@@ -52,7 +56,7 @@ describe("Create Pet Use Case", () => {
       country: "BRA",
     });
 
-    const petData: Pet = {
+    const petData: PetTest = {
       id: "pet-id",
       name: "Buddy",
       age: "2",
@@ -65,7 +69,7 @@ describe("Create Pet Use Case", () => {
       ],
       description: "Cute and friendly",
       traits: ["Friendly", "Playful"],
-      organization: "valid-org-id",
+      organizationId: organization.id as string,
     };
 
     const { petCreated } = await sut.execute({
@@ -73,11 +77,10 @@ describe("Create Pet Use Case", () => {
     });
 
     expect(petCreated).toHaveProperty("id", "pet-id");
-    expect(petData).toEqual(petCreated);
   });
 
   it("should not be able to create a pet if the organization does not exist", async () => {
-    const petData: Pet = {
+    const petData: PetTest = {
       id: "pet-id",
       name: "Buddy",
       age: "2",
@@ -90,7 +93,7 @@ describe("Create Pet Use Case", () => {
       ],
       description: "Cute and friendly",
       traits: ["Friendly", "Playful"],
-      organization: "invalid-org-id",
+      organizationId: "invalid-org-id",
     };
 
     await expect(sut.execute({ pet: petData })).rejects.toBeInstanceOf(
@@ -112,13 +115,21 @@ describe("Create Pet Use Case", () => {
       country: "BRA",
     });
 
-    const incompletePetData = {
+    const incompletePetData: PetTest = {
       id: "pet-id",
-      name: "Buddy",
-      age: "2",
-      breed: "Labrador",
-      organization: "valid-org-id",
-    } as Pet;
+      name: "",
+      age: "",
+      breed: "",
+      gender: "",
+      profilePhoto: "https://example.com/buddy.jpg",
+      photos: [
+        "https://example.com/buddy1.jpg",
+        "https://example.com/buddy2.jpg",
+      ],
+      description: "",
+      traits: [],
+      organizationId: "",
+    };
 
     await expect(sut.execute({ pet: incompletePetData })).rejects.toThrow();
   });
@@ -137,17 +148,17 @@ describe("Create Pet Use Case", () => {
       country: "BRA",
     });
 
-    const invalidAgePetData: Pet = {
+    const invalidAgePetData: PetTest = {
       id: "pet-id",
       name: "Buddy",
-      age: "-1", // Invalid age
+      age: "-1",
       breed: "Labrador",
       gender: "M",
       profilePhoto: "https://example.com/buddy.jpg",
       photos: ["https://example.com/buddy1.jpg"],
       description: "Cute and friendly",
       traits: ["Friendly"],
-      organization: "valid-org-id",
+      organizationId: "valid-org-id",
     };
 
     await expect(sut.execute({ pet: invalidAgePetData })).rejects.toThrow();
@@ -167,7 +178,7 @@ describe("Create Pet Use Case", () => {
       country: "BRA",
     });
 
-    const invalidGenderPetData: Pet = {
+    const invalidGenderPetData: PetTest = {
       id: "pet-id",
       name: "Buddy",
       age: "2",
@@ -177,7 +188,7 @@ describe("Create Pet Use Case", () => {
       photos: ["https://example.com/buddy1.jpg"],
       description: "Cute and friendly",
       traits: ["Friendly"],
-      organization: "valid-org-id",
+      organizationId: "valid-org-id",
     };
 
     await expect(sut.execute({ pet: invalidGenderPetData })).rejects.toThrow();

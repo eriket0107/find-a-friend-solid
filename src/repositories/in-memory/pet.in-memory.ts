@@ -1,5 +1,6 @@
 import { Pet } from "database/entities/Pet";
 import { IPetRepository } from "../pet.repository";
+import { Organization } from "database/entities/Organization";
 
 export class PetInMemoryRepository implements IPetRepository {
   private repository: Pet[] = [];
@@ -74,6 +75,9 @@ export class PetInMemoryRepository implements IPetRepository {
     if (where) {
       results = results.filter((pet) => {
         return Object.entries(where).every(([key, value]) => {
+          if (key === "organization" && value && typeof value === "object") {
+            return pet.organization?.city === (value as Organization).city;
+          }
           return pet[key as keyof Pet] === value;
         });
       });

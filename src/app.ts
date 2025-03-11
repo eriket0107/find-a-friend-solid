@@ -11,7 +11,10 @@ import { routes } from "./routes";
 import { RabbitMQ } from "./services/rabbitmq";
 import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
 import fastifyMultipart from "@fastify/multipart";
+import fastifyStatic from "@fastify/static";
+import path from "node:path";
 
+const __dirname = path.resolve();
 const rabbitMQ = new RabbitMQ();
 
 export const app = Fastify({
@@ -59,6 +62,11 @@ app
   .withTypeProvider();
 
 rabbitMQ.startListening(rabbitMQHandlers);
+
+app.register(fastifyStatic, {
+  root: path.join(__dirname, "/uploads"),
+  prefix: "/uploads",
+});
 
 routes(app);
 

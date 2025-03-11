@@ -10,7 +10,7 @@ export class DeletePetByIdUseCase {
   constructor(
     private readonly petRepository: IPetRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({ id }: DeletePetUseCaseRequest): Promise<void> {
     this.logger("Pet").info({

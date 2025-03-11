@@ -20,7 +20,7 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     const { organizationId, ...pet } = schema.parse(request.body);
 
     const { petCreated } = await createPetUseCase.execute({
-      pet: { ...pet, organization: organizationId },
+      pet: { ...pet, organizationId },
     });
 
     return reply.status(201).send(petCreated);

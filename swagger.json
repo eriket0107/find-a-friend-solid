@@ -653,15 +653,6 @@
                     "items": {
                       "type": "string"
                     }
-                  },
-                  "profilePhoto": {
-                    "type": "string"
-                  },
-                  "photos": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
                   }
                 },
                 "required": [
@@ -680,7 +671,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Default Response",
             "content": {
               "application/json": {
@@ -702,15 +693,6 @@
                         "M",
                         "F"
                       ]
-                    },
-                    "profilePhoto": {
-                      "type": "string"
-                    },
-                    "photos": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
                     },
                     "age": {
                       "type": "string"
@@ -787,34 +769,53 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
                   "age": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
                   "gender": {
                     "type": "string",
                     "enum": [
                       "M",
                       "F"
-                    ]
+                    ],
+                    "nullable": true
                   },
                   "breed": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
                   "traits": {
                     "type": "array",
                     "items": {
                       "type": "string"
-                    }
+                    },
+                    "nullable": true
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
-                  "organization": {
-                    "type": "string"
+                  "organizationId": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "profilePhoto": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "photos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "nullable": true
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
           }
@@ -849,6 +850,96 @@
             "required": true
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "M",
+                        "F"
+                      ]
+                    },
+                    "age": {
+                      "type": "string"
+                    },
+                    "breed": {
+                      "type": "string"
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "profilePhoto": {
+                      "type": "string"
+                    },
+                    "photos": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pet/list": {
+      "get": {
         "responses": {
           "200": {
             "description": "Default Response"

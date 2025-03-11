@@ -6,12 +6,13 @@ import { MultipartFile } from "@fastify/multipart";
 import sharp from "sharp";
 import { LoggerType } from "./logger";
 import dayjs from "dayjs";
+import { ReadStream } from "typeorm/platform/PlatformTools";
 
 const pump = promisify(pipeline);
 type PhotoFile = MultipartFile;
 
 export class PhotoStorage {
-  constructor(private logger: LoggerType) {}
+  constructor(private logger: LoggerType) { }
 
   async uploadFile({
     photoFile,
@@ -43,11 +44,11 @@ export class PhotoStorage {
 
     const fileName = isProfilePhoto
       ? `profile-${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(
-          ".",
-        )[0]
+        ".",
+      )[0]
       : `${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(".")[0];
 
-    const folderPath = path.join("src/uploads", id);
+    const folderPath = path.join("uploads", id);
     await fs.promises.mkdir(folderPath, { recursive: true });
 
     this.logger("PhotoStorage").info({
@@ -135,19 +136,18 @@ export class PhotoStorage {
     }
   }
 
-  async readFile(filePath: string): Promise<Buffer> {
+  async readFileStream(filePath: string): Promise<ReadStream> {
     try {
-      const fileBuffer = await fs.promises.readFile(filePath);
+      const stream = fs.createReadStream(filePath);
       this.logger("PhotoStorage").info({
-        message: `PhotoFile read successfully`,
+        message: `PhotoFile stream created successfully`,
         filePath,
         folder: "PhotoStorage",
-        fileSize: fileBuffer.length,
       });
 
-      return fileBuffer;
+      return stream;
     } catch (error) {
-      const errorMsg = `Error reading file at ${filePath}: ${(error as Error).message}`;
+      const errorMsg = `Error creating read stream at ${filePath}: ${(error as Error).message}`;
       console.error(errorMsg);
       this.logger("PhotoStorage").error({
         message: errorMsg,

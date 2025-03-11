@@ -2,7 +2,7 @@
 FROM node:20-alpine
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /src
 
 # Copy package.json and package-lock.json first to leverage Docker's caching
 COPY package.json yarn.lock ./
@@ -14,7 +14,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Expose the port Fastify will run on
-EXPOSE 3000
+EXPOSE 3333
 
 # Command to start the Fastify application
 CMD ["yarn", "start"]

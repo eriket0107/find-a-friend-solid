@@ -79,8 +79,7 @@ export class PetTypeOrm implements IPetRepository {
     }
 
     if (where?.traits && Array.isArray(where.traits)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      whereConditions.traits = ILike(`%${where.traits.join(",")}%`) as any;
+      whereConditions.traits = where.traits;
     }
 
     return await this.repository.find({
