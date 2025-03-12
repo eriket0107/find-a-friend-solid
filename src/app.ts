@@ -13,6 +13,7 @@ import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyStatic from "@fastify/static";
 import path from "node:path";
+import { absolutePath } from "swagger-ui-dist";
 
 const __dirname = path.resolve();
 const rabbitMQ = new RabbitMQ();
@@ -60,6 +61,12 @@ app
     routePrefix: "/docs",
   })
   .withTypeProvider();
+
+app.register(fastifyStatic, {
+  root: absolutePath(),
+  prefix: "/docs",
+  decorateReply: false,
+});
 
 rabbitMQ.startListening(rabbitMQHandlers);
 

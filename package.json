@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "tsx watch dist/app.cjs",
     "build": "tsup src --out-dir dist",
     "dev": "tsx watch server.ts",
     "test:use-cases": "vitest run --dir src/use-cases",
@@ -29,6 +29,7 @@
     "@types/amqplib": "0.10.6",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "22.13.0",
+    "@types/swagger-ui-dist": "3.30.5",
     "@vitest/coverage-v8": "3.0.5",
     "eslint": "9.19.0",
     "eslint-config-prettier": "10.0.1",
@@ -62,6 +63,7 @@
     "pino-pretty": "13.0.0",
     "reflect-metadata": "0.2.2",
     "sharp": "0.33.5",
+    "swagger-ui-dist": "5.20.1",
     "typeorm": "0.3.20",
     "zod": "3.24.1"
   }

@@ -2,7 +2,7 @@
 
 ## API Docs from Swagger
 
-`localhost:{3333 or 3000}/docs`
+`localhost:{3333 or 3000}/docs#/`
 
 ## To start application
 
