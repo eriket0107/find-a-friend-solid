@@ -17,6 +17,7 @@ import { absolutePath } from "swagger-ui-dist";
 
 const __dirname = path.resolve();
 const rabbitMQ = new RabbitMQ();
+// const swaggerUiPath = path.join(__dirname, "swagger-ui");
 
 export const app = Fastify({
   logger: {
@@ -59,6 +60,11 @@ app.register(fastifySwagger, {
 app
   .register(fastifySwaggerUI, {
     routePrefix: "/docs",
+    uiConfig: {
+      docExpansion: "none",
+      deepLinking: false,
+    },
+    staticCSP: true,
   })
   .withTypeProvider();
 
