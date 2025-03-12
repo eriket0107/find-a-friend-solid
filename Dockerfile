@@ -1,20 +1,24 @@
-# Use an official Node.js runtime as a parent image
+# Use a lightweight Node.js image
 FROM node:20-alpine
 
-# Set the working directory inside the container
-WORKDIR /src
+# Set working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage Docker's caching
+# Install dependencies with caching
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application
 COPY . .
 
-# Expose the port Fastify will run on
+# Build the project (e.g., TypeScript)
+RUN yarn build
+
+# Expose the port used by Fastify
 EXPOSE 3333
 
-# Command to start the Fastify application
+# Set production environment
+ENV NODE_ENV=production
+
+# Start the application (from built files)
 CMD ["yarn", "start"]
