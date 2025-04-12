@@ -11,6 +11,7 @@ export const verifyJwt = async (
     errorHandler({
       error,
       reply,
+      message: "Unauthorized",
       code: 401,
       folder: "Middleware",
       entity: "JWT",
