@@ -1,3 +1,4 @@
+import { authenticate } from "@/controllers/organization/authenticate";
 import { changePassword } from "@/controllers/organization/change-password";
 import { create } from "@/controllers/organization/create";
 import { deleteById } from "@/controllers/organization/delete-by-id";
@@ -261,5 +262,34 @@ export const organizationRoutes = async (app: FastifyInstance) => {
       },
     },
     changePassword,
+  );
+
+  app.post(
+    "/organization/authenticate",
+    {
+      schema: {
+        tags: ["Organization"],
+        body: {
+          type: "object",
+          properties: {
+            email: { type: "string", format: "email" },
+            password: { type: "string" },
+          },
+        },
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              accessToken: { type: "string" },
+              organization: {
+                type: "object",
+                properties: organizationSchema.properties,
+              },
+            },
+          },
+        },
+      },
+    },
+    authenticate,
   );
 };
