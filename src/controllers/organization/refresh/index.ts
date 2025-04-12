@@ -1,33 +1,21 @@
-import { makeAuthenticateOrganizationUseCase } from "@/use-cases/organization/authenticate/authenticate.factory";
 import { errorHandler } from "@/utils/error-handler";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 
-const authenticateRequestSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
-const authenticateOrganizationUseCase = makeAuthenticateOrganizationUseCase();
-
-export const authenticate = async (
+export const refreshToken = async (
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
-  console.log(request.user);
   try {
-    const { email, password } = authenticateRequestSchema.parse(request.body);
-
-    const { organization } = await authenticateOrganizationUseCase.execute({
-      email,
-      password,
+    await request.jwtVerify({
+      onlyCookie: true,
     });
 
     const accessToken = await reply.jwtSign(
       {},
       {
         sign: {
-          sub: organization.id,
+          sub: request.user?.sub,
+          expiresIn: "10m",
         },
       },
     );
@@ -35,7 +23,10 @@ export const authenticate = async (
     const refreshToken = await reply.jwtSign(
       {},
       {
-        sign: { expiresIn: "7d", sub: organization.id },
+        sign: {
+          expiresIn: "7d",
+          sub: request.user?.sub,
+        },
       },
     );
 

@@ -4,7 +4,10 @@ import { create } from "@/controllers/organization/create";
 import { deleteById } from "@/controllers/organization/delete-by-id";
 import { getById } from "@/controllers/organization/get-by-id";
 import { list } from "@/controllers/organization/list";
+import { profile } from "@/controllers/organization/profile";
+import { refreshToken } from "@/controllers/organization/refresh";
 import { update } from "@/controllers/organization/update";
+import { verifyJwt } from "@/middlewares/verify-jwt";
 import { FastifyInstance } from "fastify";
 
 const organizationSchema = {
@@ -291,5 +294,34 @@ export const organizationRoutes = async (app: FastifyInstance) => {
       },
     },
     authenticate,
+  );
+
+  app.patch(
+    "/organization/refresh-token",
+    {
+      schema: {
+        tags: ["Organization"],
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              accessToken: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+    refreshToken,
+  );
+
+  app.get(
+    "/organization/profile",
+    {
+      schema: {
+        tags: ["Organization"],
+      },
+      onRequest: [verifyJwt],
+    },
+    profile,
   );
 };
