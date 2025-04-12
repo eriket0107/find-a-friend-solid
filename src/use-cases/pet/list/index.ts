@@ -21,7 +21,7 @@ export class ListPetUseCase {
   constructor(
     private readonly repository: IPetRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({
     where,
