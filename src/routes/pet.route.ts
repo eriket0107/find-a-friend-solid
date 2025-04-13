@@ -4,6 +4,7 @@ import { getById } from "@/controllers/pet/get-by-id";
 import { list } from "@/controllers/pet/list";
 import { photoUpload } from "@/controllers/pet/photo-upload";
 import { update } from "@/controllers/pet/update";
+import { verifyJwt } from "@/middlewares/verify-jwt";
 import { FastifyInstance } from "fastify";
 
 export const petsRoutes = (app: FastifyInstance) => {
@@ -56,6 +57,7 @@ export const petsRoutes = (app: FastifyInstance) => {
           },
         },
       },
+      onRequest: [verifyJwt],
     },
     create,
   );
@@ -79,6 +81,7 @@ export const petsRoutes = (app: FastifyInstance) => {
           },
         },
       },
+      onRequest: [verifyJwt],
     },
     photoUpload,
   );
@@ -119,6 +122,7 @@ export const petsRoutes = (app: FastifyInstance) => {
           additionalProperties: false,
         },
       },
+      onRequest: [verifyJwt],
     },
     update,
   );
@@ -136,6 +140,7 @@ export const petsRoutes = (app: FastifyInstance) => {
           required: ["id"],
         },
       },
+      onRequest: [verifyJwt],
     },
     deleteById,
   );

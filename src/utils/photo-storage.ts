@@ -12,7 +12,7 @@ const pump = promisify(pipeline);
 type PhotoFile = MultipartFile;
 
 export class PhotoStorage {
-  constructor(private logger: LoggerType) { }
+  constructor(private logger: LoggerType) {}
 
   async uploadFile({
     photoFile,
@@ -44,8 +44,8 @@ export class PhotoStorage {
 
     const fileName = isProfilePhoto
       ? `profile-${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(
-        ".",
-      )[0]
+          ".",
+        )[0]
       : `${dayjs().format("YYYY-MM-DD-HH-mm-ss-SSS")}-${id}`.split(".")[0];
 
     const folderPath = path.join("uploads", id);

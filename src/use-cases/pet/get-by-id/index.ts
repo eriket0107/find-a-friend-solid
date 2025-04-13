@@ -14,7 +14,7 @@ export class GetPetByIdUseCase {
   constructor(
     private readonly petRepository: IPetRepository,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({
     id,

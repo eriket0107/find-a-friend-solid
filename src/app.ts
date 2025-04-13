@@ -13,11 +13,11 @@ import { rabbitMQHandlers } from "./config/rabbitmq.handlers";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyStatic from "@fastify/static";
 import path from "node:path";
-import { absolutePath } from "swagger-ui-dist";
+import fastifyJwt from "@fastify/jwt";
+import fastifyCookie from "@fastify/cookie";
 
 const __dirname = path.resolve();
 const rabbitMQ = new RabbitMQ();
-// const swaggerUiPath = path.join(__dirname, "swagger-ui");
 
 export const app = Fastify({
   logger: {
@@ -40,6 +40,19 @@ export const app = Fastify({
 app.register(cors, {
   credentials: true,
   origin: true,
+});
+
+app.register(fastifyCookie);
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "refreshToken",
+    signed: false,
+  },
+  sign: {
+    expiresIn: "10m",
+  },
 });
 
 app.register(fastifyMultipart, {
@@ -67,12 +80,6 @@ app
     staticCSP: true,
   })
   .withTypeProvider();
-
-app.register(fastifyStatic, {
-  root: absolutePath(),
-  prefix: "/docs",
-  decorateReply: false,
-});
 
 rabbitMQ.startListening(rabbitMQHandlers);
 

@@ -22,7 +22,7 @@ export class CreatePetUseCase {
     private readonly repository: IPetRepository,
     private readonly organization: GetByIdOrganizationUseCase,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({ pet }: ICreatePetUseCaseRequest) {
     this.logger("Pet").info({
