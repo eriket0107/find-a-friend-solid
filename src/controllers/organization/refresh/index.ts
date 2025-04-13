@@ -45,7 +45,8 @@ export const refreshToken = async (
     errorHandler({
       error,
       reply,
-      code: 400,
+      message: "Failed to refresh token",
+      code: 401,
       folder: "Controller",
       entity: "Organization",
     });

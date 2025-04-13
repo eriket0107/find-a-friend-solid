@@ -113,6 +113,7 @@ export const organizationRoutes = async (app: FastifyInstance) => {
           },
         },
       },
+      onRequest: [verifyJwt],
     },
     update,
   );
@@ -152,6 +153,7 @@ export const organizationRoutes = async (app: FastifyInstance) => {
           204: {},
         },
       },
+      onRequest: [verifyJwt],
     },
     deleteById,
   );
