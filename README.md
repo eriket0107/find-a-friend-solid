@@ -31,9 +31,9 @@ docker compose up --build
 - [X] It should be possible to filter pets by their characteristics
 - [ ] It should be possible to view details of a pet for adoption (name, photo, description, age, breed)
 - [X] It should be possible to CRUD an ORG
-- [ ] It should be possible to log in and log out as an ORG
-- [ ] It should be possible to edit the organization only if the organization is logged in
-- [ ] It should be possible to edit the pet only if the organization is logged in
+- [X] It should be possible to log in and log out as an ORG
+- [X] It should be possible to edit the organization only if the organization is logged in
+- [X] It should be possible to edit the pet only if the organization is logged in
 - [X] It should be possible to add photos to a Pet
 <!-- - [ ] It should not be possible delete a register, only deactivate it -->
 <!-- - [ ] It should be possible to processs Pet photo to webp through RBMQ system -->
@@ -46,10 +46,10 @@ docker compose up --build
 - [X] An ORG needs to have an address and a WhatsApp number (name, address, phone, cpnj)
 - [ ] It should be possible to list all ORG pets (That aren't flagged as adopted)
 - [X] A pet must be linked to an ORG
-- [ ] The user who wants to adopt will contact the ORG via WhatsApp  
+- [X] The user who wants to adopt will contact the ORG via WhatsApp  
 - [ ] All filters, except for the city, are optional
 - [ ] For an ORG to access the application as an admin, it needs to be logged in
-- [ ] It should be possible to have a loggin session as an ORG
+- [X] It should be possible to have a loggin session as an ORG
 - [ ] Only pets with profile photos can be displayed
 
 ## TODO
