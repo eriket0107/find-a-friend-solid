@@ -27,7 +27,10 @@ export const logger = (entity: string): BaseLogger => {
         },
         {
           target: "pino/file",
-          options: { destination: logFile },
+          options: {
+            destination: logFile,
+            translateTime: "yyyy-mm-dd HH:MM:ss",
+          },
         },
       ],
     },
