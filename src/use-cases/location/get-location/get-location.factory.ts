@@ -1,7 +1,8 @@
-import { getLocation } from "@/services/get-location";
+import { LocationService } from "@/services/location";
 import { GetLocationUseCase } from "./index";
+import { logger } from "@/utils/logger";
 
 export const makeGetLocationUseCase = () => {
-  const getLocationService = getLocation;
-  return new GetLocationUseCase(getLocationService);
+  const coordinatesService = new LocationService();
+  return new GetLocationUseCase(coordinatesService, logger);
 };
