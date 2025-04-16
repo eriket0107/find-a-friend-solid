@@ -103,6 +103,7 @@ class OrganizationSeeder {
       logger,
     );
     await seeder.seedOrganizations();
+    process.exit(0);
   }
 }
 
