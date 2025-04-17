@@ -6,7 +6,7 @@ export class GetLocationUseCase {
   constructor(
     private readonly coordinatesService: ILocationService,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({
     latitude,
