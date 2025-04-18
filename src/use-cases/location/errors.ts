@@ -15,3 +15,9 @@ export class StateError extends Error {
     super("State is required");
   }
 }
+
+export class StateNotFoundError extends Error {
+  constructor() {
+    super("State not found");
+  }
+}

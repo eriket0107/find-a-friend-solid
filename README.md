@@ -40,17 +40,16 @@ docker compose up --build
 
 ## Business Rules
 
-- [ ] To list the pets, it is mandatory to inform the city or get automatically throguh navigator coordinates
+- [X] To list the pets, it is mandatory to inform the city or get automatically throguh navigator coordinates
 - [ ] It should be possible to flag the pet as adopted as an ORG
 - [ ] The pet flagged as adopted should not be displayed on the list but can be accessed
 - [X] An ORG needs to have an address and a WhatsApp number (name, address, phone, cpnj)
 - [ ] It should be possible to list all ORG pets (That aren't flagged as adopted)
 - [X] A pet must be linked to an ORG
 - [X] The user who wants to adopt will contact the ORG via WhatsApp  
-- [ ] All filters, except for the city, are optional
+- [X] All filters, except for the city, are optional
 - [ ] For an ORG to access the application as an admin, it needs to be logged in
 - [X] It should be possible to have a loggin session as an ORG
-- [ ] Only pets with profile photos can be displayed
 
 ## TODO
 

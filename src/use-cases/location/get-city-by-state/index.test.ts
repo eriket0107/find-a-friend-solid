@@ -1,18 +1,34 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { GetCityByStateUseCase } from "./index";
 import { LocationService, ICitiesRequest } from "@/services/location";
-import { StateError } from "../errors";
+import { StateError, StateNotFoundError } from "../errors";
+import { LoggerType } from "@/utils/logger";
 
 describe("GetCityByStateUseCase", () => {
   let getCityByStateUseCase: GetCityByStateUseCase;
   let mockLocationService: LocationService;
+  let mockLogger: LoggerType;
 
   beforeEach(() => {
     mockLocationService = {
       getCitiesByState: vi.fn(),
     } as unknown as LocationService;
 
-    getCityByStateUseCase = new GetCityByStateUseCase(mockLocationService);
+    mockLogger = vi.fn(() => ({
+      info: vi.fn(),
+      error: vi.fn(),
+      warn: vi.fn(),
+      debug: vi.fn(),
+      fatal: vi.fn(),
+      trace: vi.fn(),
+      silent: vi.fn(),
+      level: "info",
+    }));
+
+    getCityByStateUseCase = new GetCityByStateUseCase(
+      mockLocationService,
+      mockLogger,
+    );
   });
 
   it("should be able to get cities by state", async () => {
@@ -41,12 +57,16 @@ describe("GetCityByStateUseCase", () => {
     expect(mockLocationService.getCitiesByState).toHaveBeenCalledWith({
       state,
     });
+
+    expect(mockLogger).toHaveBeenCalledWith("Location");
   });
 
   it("should throw StateError when state is missing", async () => {
     await expect(
       getCityByStateUseCase.execute({ state: "" }),
     ).rejects.toBeInstanceOf(StateError);
+
+    expect(mockLogger).toHaveBeenCalledWith("Location");
   });
 
   it("should handle empty cities array", async () => {
@@ -67,27 +87,17 @@ describe("GetCityByStateUseCase", () => {
     expect(mockLocationService.getCitiesByState).toHaveBeenCalledWith({
       state,
     });
+
+    expect(mockLogger).toHaveBeenCalledWith("Location");
   });
 
-  it("should handle state not found in STATES_MAP", async () => {
-    const state = "xx"; // Non-existent state code
-    const mockCities: ICitiesRequest[] = [
-      { codigo_ibge: "1234567", nome: "Test City" },
-    ];
+  it("should throw StateNotFoundError when state is not found in STATES_MAP", async () => {
+    const state = "xx";
 
-    vi.mocked(mockLocationService.getCitiesByState).mockResolvedValueOnce(
-      mockCities,
-    );
+    await expect(
+      getCityByStateUseCase.execute({ state }),
+    ).rejects.toBeInstanceOf(StateNotFoundError);
 
-    const result = await getCityByStateUseCase.execute({ state });
-
-    expect(result).toEqual({
-      cities: [{ name: "Test City", state_code: "XX", state_name: "" }],
-      count: 1,
-    });
-
-    expect(mockLocationService.getCitiesByState).toHaveBeenCalledWith({
-      state,
-    });
+    expect(mockLogger).toHaveBeenCalledWith("Location");
   });
 });

@@ -1,5 +1,4 @@
-import { LocationService } from "@/services/location";
-import { GetCityByStateUseCase } from "@/use-cases/location/get-city-by-state";
+import { makeGetCityByStateUseCase } from "@/use-cases/location/get-city-by-state/get-city-by-state.factory";
 import { errorHandler } from "@/utils/error-handler";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -14,9 +13,7 @@ export async function getCitiesByStateController(
 ) {
   try {
     const { state } = getCitiesByStateParamsSchema.parse(request.params);
-    const getCityByStateUseCase = new GetCityByStateUseCase(
-      new LocationService(),
-    );
+    const getCityByStateUseCase = makeGetCityByStateUseCase();
     const cities = await getCityByStateUseCase.execute({ state });
     return reply.status(200).send(cities);
   } catch (error) {

@@ -1121,6 +1121,10 @@
     },
     "/location": {
       "get": {
+        "tags": [
+          "Location"
+        ],
+        "description": "Get location by coordinates",
         "responses": {
           "200": {
             "description": "Default Response"
@@ -1130,6 +1134,10 @@
     },
     "/location/cities/{state}": {
       "get": {
+        "tags": [
+          "Location"
+        ],
+        "description": "Get cities by state",
         "parameters": [
           {
             "schema": {
