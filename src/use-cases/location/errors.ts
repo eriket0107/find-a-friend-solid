@@ -9,3 +9,9 @@ export class PostalCodeError extends Error {
     super("Postal code is required");
   }
 }
+
+export class StateError extends Error {
+  constructor() {
+    super("State is required");
+  }
+}

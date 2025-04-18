@@ -1,5 +1,6 @@
 import { FastifyReply } from "fastify";
 import { logger } from "./logger";
+import { z } from "zod";
 
 export const errorHandler = ({
   error,
@@ -17,6 +18,11 @@ export const errorHandler = ({
   entity: string;
 }) => {
   let errorMessage;
+
+  if (error instanceof z.ZodError) {
+    errorMessage = error.message;
+    reply.status(400).send({ message: "Invalid parameters" });
+  }
 
   if (error instanceof Error) {
     errorMessage = message || error.message;

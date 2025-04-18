@@ -12,7 +12,7 @@ const envSchema = z.object({
   POSTGRES_DB: z.string(),
   POSTGRES_PORT: z.coerce.number().default(5432),
   HOST: z.string().default("localhost"),
-  ADDRESS_API: z.string().url().optional(),
+  LOCATION_API: z.string().url().optional(),
   COORDINATES_API: z.string().url().optional(),
 });
 

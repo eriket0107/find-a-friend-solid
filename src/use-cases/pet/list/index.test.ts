@@ -24,36 +24,36 @@ describe("List Pet UseCase", () => {
   });
 
   it("should be able to list pets by organization city", async () => {
-    await petRepository.create({
-      id: "pet-id-1",
-      name: "John Doe",
-      age: "1",
-      breed: "Labrador",
-      description: "This is a test pet",
-      gender: "M",
-      traits: ["Teste"],
-      isAdopted: false,
-      organization: {
-        id: "1",
+    for (let i = 0; i < 10; i++) {
+      await petRepository.create({
+        id: `pet-id-${i}`,
         name: "John Doe",
-        street: "123 Main St",
-        whatsapp: "1234567890",
-        cnpj: "1234567890",
-        email: "john.doe@example.com",
-        cep: "1234567890",
-        city: "São Paulo",
-        state: "SP",
-        country: "Brazil",
-      },
-    });
+        age: "1",
+        breed: "Labrador",
+        description: "This is a test pet",
+        gender: "M",
+        traits: ["Teste"],
+        isAdopted: i % 2 === 0 ? true : false,
+        organization: {
+          id: "1",
+          name: "John Doe",
+          street: "123 Main St",
+          whatsapp: "1234567890",
+          cnpj: "1234567890",
+          email: "john.doe@example.com",
+          cep: "1234567890",
+          city: i % 3 === 0 ? "São Paulo" : "Rio de Janeiro",
+          state: i % 3 === 0 ? "SP" : "RJ",
+          country: "Brazil",
+        },
+      });
+    }
 
     const { pets } = await sut.execute({
-      organizationCity: "São Paulo",
-      where: {
-        id: "pet-id-1",
-      },
+      organizationCity: "Rio de Janeiro",
     });
-    expect(pets).toHaveLength(1);
+    console.log(pets);
+    expect(pets).toHaveLength(6);
     expect(pets[0].id).toBe("pet-id-1");
   });
 
