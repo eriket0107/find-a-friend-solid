@@ -27,6 +27,11 @@ export interface IAddressResponse {
   street: string;
 }
 
+export interface ICitiesRequest {
+  codigo_ibge: string;
+  nome: string;
+}
+
 export interface ILocationService {
   getPostalCodeByCoordinates(params: {
     latitude: number;
@@ -44,7 +49,7 @@ export class LocationService implements ILocationService {
 
   constructor(
     coordinatesApi: string = env.COORDINATES_API || "",
-    addressApi: string = env.ADDRESS_API || "",
+    addressApi: string = env.LOCATION_API || "",
     userAgent: string = "FindAFriend App",
   ) {
     if (!coordinatesApi) {
@@ -87,27 +92,14 @@ export class LocationService implements ILocationService {
   }: {
     postalCode: string;
   }): Promise<IAddressResponse> {
-    const response = await axios.get(`${this.addressApi}/${postalCode}`);
+    const response = await axios.get(`${this.addressApi}/cep/v2/${postalCode}`);
     return response.data;
   }
+
+  async getCitiesByState<T>({ state }: { state: string }): Promise<T> {
+    const response = await axios.get(
+      `${this.addressApi}/ibge/municipios/v1/${state}?providers=dados-abertos-br,gov,wikipedia`,
+    );
+    return response.data as T;
+  }
 }
-
-export const getPostalCodeByCoordinates = async ({
-  latitude,
-  longitude,
-}: {
-  latitude: number;
-  longitude: number;
-}): Promise<ICoordinatesResponse> => {
-  const locationService = new LocationService();
-  return locationService.getPostalCodeByCoordinates({ latitude, longitude });
-};
-
-export const getAddressByPostalCode = async ({
-  postalCode,
-}: {
-  postalCode: string;
-}): Promise<IAddressResponse> => {
-  const locationService = new LocationService();
-  return locationService.getAddressByPostalCode({ postalCode });
-};

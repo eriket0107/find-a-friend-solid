@@ -1,6 +1,5 @@
 import { env } from "../../src/env";
 import path from "node:path";
-
 import { DataSource } from "typeorm";
 
 const entitiesPath = path.resolve("database", "entities", "*.ts");
@@ -16,4 +15,5 @@ export const dataSource = new DataSource({
   port: env.POSTGRES_PORT,
   username: env.POSTGRES_USER,
   password: env.POSTGRES_PASSWORD,
+  url: env.DATABASE_URL,
 });

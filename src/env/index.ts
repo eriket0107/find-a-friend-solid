@@ -6,13 +6,13 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["dev", "prod", "test"]).default("dev"),
   JWT_SECRET: z.string().optional().default("devTest"),
   PORT: z.coerce.number().default(3333),
-  DATABASE_URL: z.string().optional(),
+  DATABASE_URL: z.string(),
   POSTGRES_USER: z.string(),
   POSTGRES_PASSWORD: z.string(),
   POSTGRES_DB: z.string(),
   POSTGRES_PORT: z.coerce.number().default(5432),
   HOST: z.string().default("localhost"),
-  ADDRESS_API: z.string().url().optional(),
+  LOCATION_API: z.string().url().optional(),
   COORDINATES_API: z.string().url().optional(),
 });
 

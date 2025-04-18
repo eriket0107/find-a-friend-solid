@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { makeGetLocationUseCase } from "@/use-cases/location/get-location/get-location.factory";
+import { errorHandler } from "@/utils/error-handler";
 
 const getLocationParamsSchema = z.object({
   latitude: z.string().transform(Number),
@@ -23,10 +24,12 @@ export async function getLocationController(
 
     return reply.status(200).send(address);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return reply.status(400).send({ message: "Invalid parameters" });
-    }
-
-    return reply.status(500).send({ message: "Internal server error" });
+    errorHandler({
+      error,
+      reply,
+      code: 400,
+      folder: "Controller",
+      entity: "Location",
+    });
   }
 }
