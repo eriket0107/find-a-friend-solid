@@ -18,7 +18,7 @@ export class GetCityByStateUseCase {
   constructor(
     private readonly locationService: LocationService,
     private readonly logger: LoggerType,
-  ) { }
+  ) {}
 
   async execute({ state }: { state: string }): Promise<ICitiesResponse> {
     this.logger("Location").info({

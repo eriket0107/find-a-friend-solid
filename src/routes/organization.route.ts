@@ -4,6 +4,7 @@ import { create } from "@/controllers/organization/create";
 import { deleteById } from "@/controllers/organization/delete-by-id";
 import { getById } from "@/controllers/organization/get-by-id";
 import { list } from "@/controllers/organization/list";
+import { logout } from "@/controllers/organization/logout";
 import { profile } from "@/controllers/organization/profile";
 import { refreshToken } from "@/controllers/organization/refresh";
 import { update } from "@/controllers/organization/update";
@@ -325,5 +326,30 @@ export const organizationRoutes = async (app: FastifyInstance) => {
       onRequest: [verifyJwt],
     },
     profile,
+  );
+
+  app.post(
+    "/organization/logout",
+    {
+      schema: {
+        tags: ["Organization"],
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              message: { type: "string" },
+            },
+          },
+          400: {
+            type: "object",
+            properties: {
+              message: { type: "string" },
+            },
+          },
+        },
+      },
+      onRequest: [verifyJwt],
+    },
+    logout,
   );
 };
